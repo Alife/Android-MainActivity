@@ -5,17 +5,17 @@ import java.util.Date;
 import net.tsz.afinal.annotation.sqlite.Id;
 import net.tsz.afinal.annotation.sqlite.Table;
 
-
 @Table(name = "Article")
 public class Article {
 
 	@Id(column = "ArticleId")
-	private int ArticleId;
-	private String Title;
-	private String Summary;
-	private String Content;
-	private int ColumnId;
-	private Date DateCreated;
+	public int ArticleId;
+	public String Title;
+	public String Summary;
+	public String Content;
+	// public String Link;
+	public int ColumnId;
+	public Date DateCreated;
 
 	public int getArticleId() {
 		return this.ArticleId;
@@ -65,6 +65,12 @@ public class Article {
 		this.DateCreated = dateCreated;
 	}
 
-
+	// public String getLink() {
+	// return Link;
+	// }
+	//
+	// public void setLink(String link) {
+	// Link = link;
+	// }
 
 }

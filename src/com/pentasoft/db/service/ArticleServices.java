@@ -3,10 +3,8 @@ package com.pentasoft.db.service;
 import static com.wagnerandade.coollection.Coollection.from;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,54 +21,60 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.pentasoft.db.model.Article;
 import com.wagnerandade.coollection.query.order.Order;
+
 public class ArticleServices {
 
 	private FinalDb finalDb;
 
-	public ArticleServices(FinalDb _finalDb)
-	{
+	public ArticleServices(FinalDb _finalDb) {
 		this.finalDb = _finalDb;
 	}
 
-	public List<Article> getRemoteArticle()
-	{
+	public List<Article> getRemoteArticle() {
 		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
-		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC).first();
+		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC)
+				.first();
 		int maxId = 0;
 		if (lastArticle != null) {
 			maxId = lastArticle.getArticleId();
 		}
-		String string = HttpGet("http://fuwaitest.91health.net/android/GetArticleList?id=" + maxId);
+		// String url =
+		// "http://fuwaitest.91health.net/android/GetArticleList?id=" + maxId;
+		String url = "http://10.0.2.2:8001/android/GetArticleList?id=" + maxId;
+		String string = HttpGet(url);
+
 		return parseArticleList(string);
 	}
-	
-	private List<Article> parseArticleList(String json) {
-        List<Article> result = null;
- 
-        try {
-            Article[] _result = new ObjectMapper().readValue(json, Article[].class);
-            result = Arrays.asList(_result);
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
 
-        return result;
-    }
+	private List<Article> parseArticleList(String json) {
+		List<Article> result = null;
+
+		Log.v("json:", json);
+		System.out.println(json);
+
+		List<Article> list = JSON.parseArray(json, Article.class);
+		for (Article rss : list) {
+			System.out.println("ArticleId:" + rss.getArticleId());
+			System.out.println("Title:" + rss.getTitle());
+			System.out.println("Content:" + rss.getContent());
+			System.out.println("Summary:" + rss.getSummary());
+			System.out.println("DateCreated:" + rss.getDateCreated());
+			System.out.println("ColumnId:" + rss.getColumnId());
+		}
+		result = list;
+
+		return result;
+	}
 
 	public ArrayList<HashMap<String, String>> getArticleArrayList() {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		for (int i = 0; i < 30; i++)
-		{
+		for (int i = 0; i < 30; i++) {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("ItemTitle", "This is Title.....");
 			map.put("ItemText", "This is text.....");
@@ -80,7 +84,7 @@ public class ArticleServices {
 	}
 
 	private String HttpGet(String string) {
-		return HttpGet(string,null);
+		return HttpGet(string, null);
 	}
 
 	private String HttpGet(String url, List<NameValuePair> paras) {
@@ -90,9 +94,11 @@ public class ArticleServices {
 		StringBuilder builder = new StringBuilder();
 
 		if (paras != null && paras.size() > 0) {
-			if (url.indexOf("?") == -1) url += "?";
+			if (url.indexOf("?") == -1)
+				url += "?";
 			for (NameValuePair nameValuePair : paras) {
-				result += nameValuePair.getName() + "=" + nameValuePair.getValue() + "&";
+				result += nameValuePair.getName() + "="
+						+ nameValuePair.getValue() + "&";
 			}
 		}
 
@@ -130,8 +136,10 @@ public class ArticleServices {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		if (paras != null && paras.size() > 0) {
 			for (NameValuePair nameValuePair : paras) {
-				list.add(new BasicNameValuePair(nameValuePair.getName(), nameValuePair.getValue()));
-				result += nameValuePair.getName() + "=" + nameValuePair.getValue() + "&";
+				list.add(new BasicNameValuePair(nameValuePair.getName(),
+						nameValuePair.getValue()));
+				result += nameValuePair.getName() + "="
+						+ nameValuePair.getValue() + "&";
 			}
 		}
 
