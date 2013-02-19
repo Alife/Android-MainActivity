@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip"
+    android:paddingTop="5dip"
+    android:paddingBottom="5dip" >
+    
+    <TextView 
+        android:id="@+id/tv_date_news_top_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2012年04月1日  12：32"/>
+    <TextView 
+        android:id="@+id/tv_title_news_top_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff333333"
+	    android:textSize="18sp"
+        android:text="2012年04月1日  12：32"/>
+    <TextView 
+        android:id="@+id/tv_description_news_top_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="2012年04月1日  12：32"/>
+
+</LinearLayout>

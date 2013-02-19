@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
+
+    <RelativeLayout
+        android:id="@+id/layout_more_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="#990000" >
+        
+        <ImageButton 
+            android:id="@+id/btn_news_more_content_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/newscontent_selector_back"/>
+
+        <ImageView
+            android:id="@+id/img_netease_more_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@+id/btn_news_more_content_back"
+            android:src="@drawable/netease_top" />
+
+        <TextView
+            android:id="@+id/tv_news_more_content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_netease_more_content"
+            android:text="@string/news_top_left_text"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <ViewSwitcher 
+        android:id="@+id/viewswitcher_news_more_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+    </ViewSwitcher>
+
+</LinearLayout>
