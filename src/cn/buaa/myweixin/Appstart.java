@@ -23,21 +23,23 @@ public class Appstart extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				// 打开直接进入主页
-				// Intent intent = new Intent (Appstart.this,Welcome.class);
+				// 直接进入主页
+				// Intent intent = new Intent(Appstart.this, Welcome.class);
 				// startActivity(intent);
 
-				// 进入主页判断是否是第一次,进入,是:显示新版介绍.否:直接进入主页
-				boolean isFirst = false;
-				if (isFirst) {
+				// 判断是否是第一次进入
+				// 第一次进入显示介绍界面,否则直接进入主页
+				boolean isfirst = false;
+				if (isfirst) {
 					Intent intent = new Intent(Appstart.this, Whatsnew.class);
 					startActivity(intent);
 				} else {
 					Intent intent = new Intent(Appstart.this, MainWeixin.class);
 					startActivity(intent);
 				}
+
 				Appstart.this.finish();
 			}
-		}, 2000);
+		}, 1000);
 	}
 }

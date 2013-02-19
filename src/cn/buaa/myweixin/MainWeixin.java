@@ -1,25 +1,54 @@
 package cn.buaa.myweixin;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Html;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
+
+import com.and.netease.CONST;
+import com.and.netease.MyListView;
+import com.and.netease.MyListView.OnRefreshListener;
+import com.and.netease.NewsContentActivity;
+import com.and.netease.rss.RSSHandler;
+import com.and.netease.rss.RSSItem;
 
 public class MainWeixin extends Activity {
 
@@ -80,7 +109,8 @@ public class MainWeixin extends Activity {
 		// InitImageView();//使用动画
 		// 将要分页显示的View装入数组中
 		LayoutInflater mLi = LayoutInflater.from(this);
-		View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
+		// View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
+		View view1 = mLi.inflate(R.layout.main_tab_home, null);
 		View view2 = mLi.inflate(R.layout.main_tab_address, null);
 		View view3 = mLi.inflate(R.layout.main_tab_friends, null);
 		View view4 = mLi.inflate(R.layout.main_tab_settings, null);
@@ -164,6 +194,7 @@ public class MainWeixin extends Activity {
 					mTab4.setImageDrawable(getResources().getDrawable(
 							R.drawable.tab_settings_normal));
 				}
+				subActivuty();
 				break;
 			case 1:
 				mTab2.setImageDrawable(getResources().getDrawable(
@@ -318,4 +349,188 @@ public class MainWeixin extends Activity {
 		Intent intent = new Intent(MainWeixin.this, ShakeActivity.class);
 		startActivity(intent);
 	}
+
+	MyListView listView;
+
+	List<RSSItem> list;
+	RSSHandler rssHandler;
+	MyAdapter adapter;
+	ViewSwitcher viewSwitcher;
+
+	public void subActivuty() {
+		initViews();
+		rssHandler = new RSSHandler();
+		requestRSSFeed();
+	}
+
+	private void initViews() {
+		viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher_news_top);
+		listView = new MyListView(this);
+		listView.setCacheColorHint(Color.argb(0, 0, 0, 0));
+		ImageView testView = new ImageView(this);
+		testView.setImageResource(R.drawable.temp);
+		listView.addHeaderView(testView);
+		listView.setonRefreshListener(refreshListener);
+
+		viewSwitcher.addView(listView);
+		viewSwitcher.addView(getLayoutInflater().inflate(
+				R.layout.layout_progress_page, null));
+		viewSwitcher.showNext();
+		listView.setOnItemClickListener(listener);
+
+	}
+
+	private OnRefreshListener refreshListener = new OnRefreshListener() {
+
+		@Override
+		public void onRefresh() {
+			// TODO Auto-generated method stub
+			new AsyncTask<Void, Void, Void>() {
+				protected Void doInBackground(Void... params) {
+					try {
+						Thread.sleep(1000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					adapter.notifyDataSetChanged();
+					listView.onRefreshComplete();
+				}
+
+			}.execute(null);
+		}
+	};
+
+	private void requestRSSFeed() {
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				try {
+					URL url = new URL(CONST.URL_NEWS_TOP);
+					URLConnection con = url.openConnection();
+					con.connect();
+
+					InputStream input = con.getInputStream();
+
+					SAXParserFactory fac = SAXParserFactory.newInstance();
+					SAXParser parser = fac.newSAXParser();
+					XMLReader reader = parser.getXMLReader();
+					reader.setContentHandler(rssHandler);
+					// Reader r = new InputStreamReader(input,
+					// Charset.forName("GBK"));
+					Reader r = new InputStreamReader(input);
+					reader.parse(new InputSource(r));
+					list = rssHandler.getData();
+					for (RSSItem rss : list) {
+						System.out.println(rss);
+					}
+					if (list.size() == 0) {
+						handler.sendEmptyMessage(-1);
+					} else {
+						handler.sendEmptyMessage(1);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
+	}
+
+	Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 1) {
+				adapter = new MyAdapter();
+				listView.setOnItemClickListener(listener);
+				listView.setAdapter(adapter);
+				viewSwitcher.showPrevious();
+
+				listView.onRefreshComplete();
+			}
+		};
+	};
+
+	private OnItemClickListener listener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (position == 1) {
+				return;
+			}
+			Intent intent = new Intent(MainWeixin.this,
+					NewsContentActivity.class);
+			intent.putExtra("content_url", list.get(position - 2).getLink());
+			MainWeixin.this.startActivityForResult(intent, position);
+		}
+	};
+
+	private class MyAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder;
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = getLayoutInflater().inflate(
+						R.layout.layout_news_top_item, null);
+				holder.tv_date = (TextView) convertView
+						.findViewById(R.id.tv_date_news_top_item);
+				holder.tv_title = (TextView) convertView
+						.findViewById(R.id.tv_title_news_top_item);
+				holder.tv_Description = (TextView) convertView
+						.findViewById(R.id.tv_description_news_top_item);
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+
+			holder.tv_date.setText(list.get(position).getPubDate());
+			holder.tv_title.setText(list.get(position).getTitle());
+			// TextView使用Html来处理图片显示
+			// Spanned text = Html.fromHtml(list.get(position).getDescription(),
+			// imgGetter, null);
+			holder.tv_Description.setText(
+					Html.fromHtml(list.get(position).getDescription()),
+					TextView.BufferType.SPANNABLE);
+
+			return convertView;
+		}
+
+	}
+
+	public static class ViewHolder {
+		TextView tv_date;
+		TextView tv_title;
+		TextView tv_Description;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		System.out.println("返回");
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+
 }
