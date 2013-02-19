@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pentasoft.app"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
-
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.pentasoft.app.MainActivity"
-            android:label="@string/app_name" >
+      package="com.studio.gzs.mm"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="7" />
+    <!-- 关闭应用程序的权限 -->
+	<uses-permission android:name="android.permission.RESTART_PACKAGES" />
+        <application android:theme="@style/MMTheme.Basic" android:label="@string/app_name" android:icon="@drawable/icon">
+        <activity android:theme="@style/MMTheme.Launcher" android:name=".LauncherUI" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.WelcomeUI" android:screenOrientation="portrait" />
+        <activity android:name=".login.SelectLoginRegUI3" android:screenOrientation="portrait" />
+        <activity android:name=".login.RegByQQRegUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".login.RegByMailRegUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.RegByMobileRegUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.LoginUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.RegByMobileVerifyUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.RegByMobileSetPwdUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.RegByMobileSetNickUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".login.RegSuccessNickUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity android:name=".MainTabUI3" android:launchMode="singleTop" android:configChanges="locale|keyboardHidden|orientation" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".MainUI" android:launchMode="singleTop" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".ui.AddressUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.FindFriendUIGroup" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".ui.nearbyfriends.NearbyFriendsIntroUI" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".ui.nearbyfriends.NearbyFriendsUI" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".ui.chatting.TestChatting" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ui.chatting.ChattingUI" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".qq.QQGroupUI" android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".qq.QQFriendUI" android:configChanges="keyboardHidden|orientation"/>
     </application>
-
 </manifest>
