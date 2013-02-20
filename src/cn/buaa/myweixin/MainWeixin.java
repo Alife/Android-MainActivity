@@ -11,6 +11,8 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.tsz.afinal.annotation.view.ViewInject;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -24,6 +26,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -68,7 +71,8 @@ public class MainWeixin extends Activity {
 	private boolean menu_display = false;
 	private PopupWindow menuWindow;
 	private LayoutInflater inflater;
-
+	@ViewInject(id = R.id.tabButtonGroup_layout)
+	LinearLayout tabButtonGroup_layout;
 	// private Button mRightBtn;
 
 	@Override
@@ -177,83 +181,89 @@ public class MainWeixin extends Activity {
 		@Override
 		public void onPageSelected(int arg0) {
 			Animation animation = null;
+
+			for (int i = 0; i < tabButtonGroup_layout.getChildCount(); i++) {
+				Object v = tabButtonGroup_layout.getChildAt(i);
+				if (v instanceof LinearLayout) {
+					Log.d("getChildAt:", ((View) v).getId() + "");
+				}
+			}
 			switch (arg0) {
-			case 0:
-				mTab1.setImageDrawable(getResources().getDrawable(
-						R.drawable.tab_weixin_pressed));
-				if (currIndex == 1) {
-					animation = new TranslateAnimation(one, 0, 0, 0);
-					mTab2.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_address_normal));
-				} else if (currIndex == 2) {
-					animation = new TranslateAnimation(two, 0, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
-				} else if (currIndex == 3) {
-					animation = new TranslateAnimation(three, 0, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
-				}
-				subActivuty();
-				break;
-			case 1:
-				mTab2.setImageDrawable(getResources().getDrawable(
-						R.drawable.tab_address_pressed));
-				if (currIndex == 0) {
-					animation = new TranslateAnimation(zero, one, 0, 0);
+				case 0 :
 					mTab1.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_weixin_normal));
-				} else if (currIndex == 2) {
-					animation = new TranslateAnimation(two, one, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
-				} else if (currIndex == 3) {
-					animation = new TranslateAnimation(three, one, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
-				}
-				break;
-			case 2:
-				mTab3.setImageDrawable(getResources().getDrawable(
-						R.drawable.tab_find_frd_pressed));
-				if (currIndex == 0) {
-					animation = new TranslateAnimation(zero, two, 0, 0);
-					mTab1.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_weixin_normal));
-				} else if (currIndex == 1) {
-					animation = new TranslateAnimation(one, two, 0, 0);
+							R.drawable.tab_weixin_pressed));
+					if (currIndex == 1) {
+						animation = new TranslateAnimation(one, 0, 0, 0);
+						mTab2.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_address_normal));
+					} else if (currIndex == 2) {
+						animation = new TranslateAnimation(two, 0, 0, 0);
+						mTab3.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_find_frd_normal));
+					} else if (currIndex == 3) {
+						animation = new TranslateAnimation(three, 0, 0, 0);
+						mTab4.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_settings_normal));
+					}
+					subActivuty();
+					break;
+				case 1 :
 					mTab2.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_address_normal));
-				} else if (currIndex == 3) {
-					animation = new TranslateAnimation(three, two, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
-				}
-				break;
-			case 3:
-				mTab4.setImageDrawable(getResources().getDrawable(
-						R.drawable.tab_settings_pressed));
-				if (currIndex == 0) {
-					animation = new TranslateAnimation(zero, three, 0, 0);
-					mTab1.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_weixin_normal));
-				} else if (currIndex == 1) {
-					animation = new TranslateAnimation(one, three, 0, 0);
-					mTab2.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_address_normal));
-				} else if (currIndex == 2) {
-					animation = new TranslateAnimation(two, three, 0, 0);
+							R.drawable.tab_address_pressed));
+					if (currIndex == 0) {
+						animation = new TranslateAnimation(zero, one, 0, 0);
+						mTab1.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_weixin_normal));
+					} else if (currIndex == 2) {
+						animation = new TranslateAnimation(two, one, 0, 0);
+						mTab3.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_find_frd_normal));
+					} else if (currIndex == 3) {
+						animation = new TranslateAnimation(three, one, 0, 0);
+						mTab4.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_settings_normal));
+					}
+					break;
+				case 2 :
 					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
-				}
-				break;
+							R.drawable.tab_find_frd_pressed));
+					if (currIndex == 0) {
+						animation = new TranslateAnimation(zero, two, 0, 0);
+						mTab1.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_weixin_normal));
+					} else if (currIndex == 1) {
+						animation = new TranslateAnimation(one, two, 0, 0);
+						mTab2.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_address_normal));
+					} else if (currIndex == 3) {
+						animation = new TranslateAnimation(three, two, 0, 0);
+						mTab4.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_settings_normal));
+					}
+					break;
+				case 3 :
+					mTab4.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_settings_pressed));
+					if (currIndex == 0) {
+						animation = new TranslateAnimation(zero, three, 0, 0);
+						mTab1.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_weixin_normal));
+					} else if (currIndex == 1) {
+						animation = new TranslateAnimation(one, three, 0, 0);
+						mTab2.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_address_normal));
+					} else if (currIndex == 2) {
+						animation = new TranslateAnimation(two, three, 0, 0);
+						mTab3.setImageDrawable(getResources().getDrawable(
+								R.drawable.tab_find_frd_normal));
+					}
+					break;
 			}
 			currIndex = arg0;
 			animation.setFillAfter(true);// True:图片停在动画结束位置
 			animation.setDuration(150);
 			mTabImg.startAnimation(animation);
 		}
-
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 		}

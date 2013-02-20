@@ -253,7 +253,6 @@ public final class R {
         public static final int login_reback_btn=0x7f0a0015;
         public static final int login_top_layout=0x7f0a0035;
         public static final int login_user_edit=0x7f0a0036;
-        public static final int main_bottom=0x7f0a0045;
         public static final int main_dialog_layout=0x7f0a003f;
         public static final int main_login_btn=0x7f0a0054;
         public static final int main_regist_btn=0x7f0a0055;
@@ -278,6 +277,7 @@ public final class R {
         public static final int shake_title_bar=0x7f0a004f;
         public static final int slidingDrawer1=0x7f0a0050;
         public static final int startBtn=0x7f0a0056;
+        public static final int tabButtonGroup_layout=0x7f0a0045;
         public static final int tabpager=0x7f0a004b;
         public static final int title=0x7f0a0014;
         public static final int tv_chatcontent=0x7f0a0009;
