@@ -1,4 +1,4 @@
-package com.pentasoft.db.model;
+﻿package com.pentasoft.db.model;
 
 public class Settings {
 

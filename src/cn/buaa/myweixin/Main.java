@@ -96,7 +96,7 @@ public class Main extends BaseActivityGroup {
 		// 将要分页显示的View装入数组中
 		LayoutInflater mLi = LayoutInflater.from(this);
 		view1 = mLi.inflate(R.layout.main_tab_home, null);
-		View view2 = mLi.inflate(R.layout.main_tab_address, null);
+		View view2 = mLi.inflate(R.layout.main_tab_follow, null);
 		View view3 = mLi.inflate(R.layout.main_tab_friends, null);
 		View view4 = mLi.inflate(R.layout.main_tab_settings, null);
 
@@ -170,16 +170,13 @@ public class Main extends BaseActivityGroup {
 				mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_pressed));
 				if (currIndex == 1) {
 					animation = new TranslateAnimation(one, 0, 0, 0);
-					mTab2.setImageDrawable(getResources()
-							.getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, 0, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, 0, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
 				}
 				break;
 			case 1:
@@ -189,12 +186,10 @@ public class Main extends BaseActivityGroup {
 					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, one, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, one, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
 				}
 				break;
 			case 2:
@@ -204,12 +199,10 @@ public class Main extends BaseActivityGroup {
 					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
 				} else if (currIndex == 1) {
 					animation = new TranslateAnimation(one, two, 0, 0);
-					mTab2.setImageDrawable(getResources()
-							.getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, two, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
 				}
 				break;
 			case 3:
@@ -219,12 +212,10 @@ public class Main extends BaseActivityGroup {
 					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
 				} else if (currIndex == 1) {
 					animation = new TranslateAnimation(one, three, 0, 0);
-					mTab2.setImageDrawable(getResources()
-							.getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, three, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(
-							R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
 				}
 				break;
 			}
@@ -267,8 +258,7 @@ public class Main extends BaseActivityGroup {
 				layout = inflater.inflate(R.layout.main_menu, null);
 
 				// 下面我们要考虑了，我怎样将我的layout加入到PopupWindow中呢？？？很简单
-				menuWindow = new PopupWindow(layout, LayoutParams.FILL_PARENT,
-						LayoutParams.WRAP_CONTENT); // 后两个参数是width和height
+				menuWindow = new PopupWindow(layout, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT); // 后两个参数是width和height
 				// menuWindow.showAsDropDown(layout); //设置弹出效果
 				// menuWindow.showAsDropDown(null, 0, layout.getHeight());
 				menuWindow.showAtLocation(this.findViewById(R.id.mainweixin), Gravity.BOTTOM
@@ -367,8 +357,8 @@ public class Main extends BaseActivityGroup {
 		tv_front.setTextColor(Color.WHITE);
 		tv_front.setText(R.string.title_news_category_tops);
 		tv_front.setGravity(Gravity.CENTER);
-		RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		param.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		layout_title_bar.addView(tv_front, param);
 

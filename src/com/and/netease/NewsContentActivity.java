@@ -1,14 +1,17 @@
 package com.and.netease;
 
+import net.tsz.afinal.annotation.view.ViewInject;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import cn.buaa.myweixin.R;
 
@@ -19,6 +22,8 @@ public class NewsContentActivity extends Activity {
 	String content_url;
 
 	ViewSwitcher viewSwitcher;
+	@ViewInject(id = R.id.news_content_title)
+	TextView news_content_title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +39,27 @@ public class NewsContentActivity extends Activity {
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
 
 		content_url = getIntent().getStringExtra("content_url");
+		String title = getIntent().getStringExtra("content_title");
+		Log.d("content_title", String.valueOf(news_content_title == null));
+		Log.d("content_title", title);
+		Log.d("content_url", content_url);
+		news_content_title = (TextView) findViewById(R.id.news_content_title);
+		Log.d("content_title", String.valueOf(news_content_title == null));
+		news_content_title.setText(title);
 		webView = new WebView(this);
-
-		// œÚViewSwitcher÷–ÃÌº”¡Ω∏ˆView£¨”√¿¥«–ªª
+		//
+		// // ÂêëViewSwitcher‰∏≠Ê∑ªÂä†‰∏§‰∏™ViewÔºåÁî®Êù•ÂàáÊç¢
 		viewSwitcher.addView(webView);
-		viewSwitcher.addView(getLayoutInflater().inflate(
-				R.layout.layout_progress_page, null));
+		// viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page,
+		// null));
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
+		// ‰ºòÂÖàÁºìÂ≠ò http://androiddada.iteye.com/blog/1280946
+		settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-		webView.setWebViewClient(client);
+		// WebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		// ÈªòËÆ§‰∏ç‰ΩøÁî®ÁºìÂ≠òÔºÅ
+		// webView.setWebViewClient(client);
 		webView.loadUrl(content_url);
 	}
 
@@ -65,7 +81,6 @@ public class NewsContentActivity extends Activity {
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			return super.shouldOverrideUrlLoading(view, url);
 		}
-
 	};
 
 	private OnClickListener listener = new OnClickListener() {

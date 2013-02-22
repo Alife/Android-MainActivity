@@ -1,4 +1,4 @@
-package com.and.netease;
+﻿package com.and.netease;
 
 import android.app.ActivityGroup;
 import android.content.Intent;

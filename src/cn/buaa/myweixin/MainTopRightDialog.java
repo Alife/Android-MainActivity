@@ -1,4 +1,4 @@
-package cn.buaa.myweixin;
+锘縫ackage cn.buaa.myweixin;
 
 
 import android.app.Activity;
@@ -24,7 +24,7 @@ public class MainTopRightDialog extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "提示：点击窗口外部关闭窗口！", 
+				Toast.makeText(getApplicationContext(), "鎻愮ず锛氱偣鍑荤獥鍙ｅ閮ㄥ叧闂獥鍙ｏ紒", 
 						Toast.LENGTH_SHORT).show();	
 			}
 		});
@@ -41,7 +41,7 @@ public class MainTopRightDialog extends Activity {
       }  
 	public void exitbutton0(View v) {  
     	this.finish();
-    	MainWeixin.instance.finish();//关闭Main 这个Activity
+    	MainWeixin.instance.finish();//鍏抽棴Main 杩欎釜Activity
       }  
 	*/
 }

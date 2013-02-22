@@ -1,4 +1,4 @@
-package com.and.netease.rss;
+﻿package com.and.netease.rss;
 
 public class RSSItem {
 

@@ -1,4 +1,4 @@
-
+﻿
 package cn.buaa.myweixin;
 
 public class ChatMsgEntity {

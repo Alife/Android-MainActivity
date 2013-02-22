@@ -1,9 +1,14 @@
 package com.and.netease;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +43,13 @@ public class TabNewsTopActivity extends BaseActivity {
 	MyListView listView;
 
 	List<Article> list;
+	List<Article> listimage;
 	RSSHandler rssHandler;
 
 	MyAdapter adapter;
 
 	ViewSwitcher viewSwitcher;
+	ImageView testView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +67,17 @@ public class TabNewsTopActivity extends BaseActivity {
 	}
 
 	private void initViews() {
-		// 加载顶部图片
-		ImageView testView = new ImageView(this);
-		testView.setImageResource(R.drawable.temp);
 
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher_news_top);
 		listView = new MyListView(this);
 		listView.setCacheColorHint(Color.argb(0, 0, 0, 0));
-		listView.addHeaderView(testView);
 		listView.setonRefreshListener(refreshListener);
 		listView.setOnItemClickListener(itemClickListener);
+
+		// 加载顶部图片
+		testView = new ImageView(this);
+		// testView.setImageResource(R.drawable.temp);
+		// listView.addHeaderView(testView);
 
 		viewSwitcher.addView(listView);
 		viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page, null));
@@ -127,9 +136,10 @@ public class TabNewsTopActivity extends BaseActivity {
 					// System.out.println(rss);
 					// }
 
-					list = new ArticleServices(db).getRemoteArticle(11);
+					list = new ArticleServices(db).getRemoteArticle(CONST.Article_News_ColumnId);
+					listimage = new ArticleServices(db).getRemoteArticle(CONST.Article_News_ColumnId, true);
 
-					if (list.size() == 0) {
+					if (list.size() == 0 && listimage.size() == 0) {
 						handler.sendEmptyMessage(-1);
 					} else {
 						handler.sendEmptyMessage(1);
@@ -146,6 +156,28 @@ public class TabNewsTopActivity extends BaseActivity {
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 1) {
+
+				// 加载顶部图片
+				String ImageUrl = listimage.get(0).getImageUrl();
+				Log.v("ImageUrl", ImageUrl);
+				URL picUrl;
+				try {
+					picUrl = new URL(ImageUrl);
+					Bitmap pngBM;
+					pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+					testView.setImageBitmap(pngBM);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				listView.addHeaderView(testView);
+
 				adapter = new MyAdapter();
 				listView.setOnItemClickListener(itemClickListener);
 				listView.setAdapter(adapter);
@@ -168,7 +200,8 @@ public class TabNewsTopActivity extends BaseActivity {
 			// intent.putExtra("content_url", list.get(position - 2).getLink());
 			// position 此处减 2 是因为前面动态添加了一个图片
 			// 猜测 position 应该是该 Item 在全局 layout 中的位置
-			intent.putExtra("content_url", CONST.Url_Host + list.get(position - 2).getLink());
+			intent.putExtra("content_url", list.get(position - 2).getLink());
+			intent.putExtra("content_title", list.get(position - 2).getTitle());
 			TabNewsTopActivity.this.startActivityForResult(intent, position);
 		}
 	};
@@ -205,8 +238,8 @@ public class TabNewsTopActivity extends BaseActivity {
 			}
 
 			String dateString = "";
-			if (list.get(position).getDateCreated() != null)
-				dateString = list.get(position).getDateCreated().toLocaleString();
+			if (list.get(position).getReleaseDate() != null)
+				dateString = list.get(position).getReleaseDate().toLocaleString();
 			holder.tv_date.setText(dateString);
 			holder.tv_title.setText(list.get(position).getTitle());
 			// TextView使用Html来处理图片显示

@@ -1,8 +1,8 @@
-package com.pentasoft.configs;
+ï»¿package com.pentasoft.configs;
 
 public class Configs {
 	public static class SystemConfig {
-		private static String dbName = "MvcPentasoftx.db";// Êı¾İ¿âÃû×Ö
+		private static String dbName = "MvcPentasoftx.db";// æ•°æ®åº“åå­—
 
 		public static String getDbName() {
 			return dbName;

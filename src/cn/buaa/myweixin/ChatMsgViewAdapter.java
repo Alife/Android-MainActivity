@@ -1,4 +1,4 @@
-
+﻿
 package cn.buaa.myweixin;
 
 import android.R.integer;

@@ -5,6 +5,8 @@ import java.util.Date;
 import net.tsz.afinal.annotation.sqlite.Id;
 import net.tsz.afinal.annotation.sqlite.Table;
 
+import com.and.netease.CONST;
+
 @Table(name = "Article")
 public class Article {
 
@@ -15,7 +17,8 @@ public class Article {
 	public String Content;
 	public String Link;
 	public int ColumnId;
-	public Date DateCreated;
+	public Date ReleaseDate;
+	public String ImageUrl;
 
 	public int getArticleId() {
 		return this.ArticleId;
@@ -57,20 +60,28 @@ public class Article {
 		this.ColumnId = columnId;
 	}
 
-	public Date getDateCreated() {
-		return this.DateCreated;
+	public Date getReleaseDate() {
+		return this.ReleaseDate;
 	}
 
-	public void setDateCreated(Date dateCreated) {
-		this.DateCreated = dateCreated;
+	public void setReleaseDate(Date dateCreated) {
+		this.ReleaseDate = dateCreated;
 	}
 
 	public String getLink() {
-		return Link;
+		return CONST.Url_Host + Link;
 	}
 
 	public void setLink(String link) {
 		Link = link;
+	}
+
+	public String getImageUrl() {
+		return CONST.Url_ImgHost + ImageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		ImageUrl = imageUrl;
 	}
 
 }

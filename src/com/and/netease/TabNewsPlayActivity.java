@@ -82,7 +82,7 @@ public class TabNewsPlayActivity extends BaseActivity {
 					// System.out.println(rss);
 					// }
 
-					list = new ArticleServices(db).getRemoteArticle(200000);
+					list = new ArticleServices(db).getRemoteArticle(CONST.Article_Media_ColumnId);
 
 					if (list.size() == 0) {
 						handler.sendEmptyMessage(-1);
@@ -113,7 +113,8 @@ public class TabNewsPlayActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent intent = new Intent(TabNewsPlayActivity.this, NewsContentActivity.class);
-			intent.putExtra("content_url", CONST.Url_Host + list.get(position).getLink());
+			intent.putExtra("content_url", list.get(position).getLink());
+			intent.putExtra("content_title", list.get(position).getTitle());
 			TabNewsPlayActivity.this.startActivityForResult(intent, position);
 		}
 	};
@@ -150,8 +151,8 @@ public class TabNewsPlayActivity extends BaseActivity {
 			}
 
 			String dateString = "";
-			if (list.get(position).getDateCreated() != null)
-				dateString = list.get(position).getDateCreated().toLocaleString();
+			if (list.get(position).getReleaseDate() != null)
+				dateString = list.get(position).getReleaseDate().toLocaleString();
 			holder.tv_date.setText(dateString);
 			holder.tv_title.setText(list.get(position).getTitle());
 			// TextView使用Html来处理图片显示
@@ -175,12 +176,13 @@ public class TabNewsPlayActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		System.out.println("返回");
-		if (resultCode == RESULT_OK) {
-			// 确认中
-			View v = (View) listView.getItemAtPosition(requestCode);
-			TextView tv = (TextView) v.findViewById(R.id.tv_title_news_top_item);
-			tv.setText("hello");
-			adapter.notifyDataSetChanged();
-		}
+		// if (resultCode == RESULT_OK) {
+		// // 确认中
+		// View v = (View) listView.getItemAtPosition(requestCode);
+		// TextView tv = (TextView)
+		// v.findViewById(R.id.tv_title_news_top_item);
+		// tv.setText("hello");
+		// adapter.notifyDataSetChanged();
+		// }
 	}
 }

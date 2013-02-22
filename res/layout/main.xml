@@ -47,7 +47,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/main_button_menu1"
+                    android:text="@string/main_menu_home"
                     android:textColor="#fff"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/main_button_menu2"
+                    android:text="@string/main_menu_follow"
                     android:textColor="#fff"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/main_button_menu3"
+                    android:text="@string/main_menu_friend"
                     android:textColor="#fff"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -116,7 +116,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/main_button_menu4"
+                    android:text="@string/main_menu_setting"
                     android:textColor="#fff"
                     android:textSize="12sp" />
             </LinearLayout>

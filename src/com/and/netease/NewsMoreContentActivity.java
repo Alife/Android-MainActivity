@@ -38,8 +38,8 @@ public class NewsMoreContentActivity extends Activity {
 	ImageButton btn_back;
 	TextView tv_title;
 	ListView listView;
-	String path;// url¬∑æ∂
-	String text;// ∂•≤ø∂ØÃ¨Œƒ◊÷
+	String path;// urlË∑ØÂæÑ
+	String text;// È°∂ÈÉ®Âä®ÊÄÅÊñáÂ≠ó
 
 	List<RSSItem> list;
 	RSSHandler rssHandler;
@@ -69,15 +69,14 @@ public class NewsMoreContentActivity extends Activity {
 		btn_back = (ImageButton) findViewById(R.id.btn_news_more_content_back);
 		btn_back.setOnClickListener(onclick_listener);
 
-		tv_title = (TextView) findViewById(R.id.tv_news_more_content_title);
+		tv_title = (TextView) findViewById(R.id.news_content_title);
 		tv_title.setText(text);
 
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher_news_more_content);
 		listView = new ListView(this);
 		listView.setCacheColorHint(Color.argb(0, 0, 0, 0));
 		viewSwitcher.addView(listView);
-		viewSwitcher.addView(getLayoutInflater().inflate(
-				R.layout.layout_progress_page, null));
+		viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page, null));
 		viewSwitcher.showNext();
 		listView.setOnItemClickListener(listener);
 
@@ -131,13 +130,11 @@ public class NewsMoreContentActivity extends Activity {
 	private OnItemClickListener listener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			Intent intent = new Intent(NewsMoreContentActivity.this,
-					NewsContentActivity.class);
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent = new Intent(NewsMoreContentActivity.this, NewsContentActivity.class);
 			intent.putExtra("content_url", list.get(position).getLink());
-			NewsMoreContentActivity.this.startActivityForResult(intent,
-					position);
+			intent.putExtra("content_title", list.get(position).getTitle());
+			NewsMoreContentActivity.this.startActivityForResult(intent, position);
 		}
 	};
 
@@ -171,14 +168,10 @@ public class NewsMoreContentActivity extends Activity {
 			ViewHolder holder;
 			if (convertView == null) {
 				holder = new ViewHolder();
-				convertView = getLayoutInflater().inflate(
-						R.layout.layout_news_top_item, null);
-				holder.tv_date = (TextView) convertView
-						.findViewById(R.id.tv_date_news_top_item);
-				holder.tv_title = (TextView) convertView
-						.findViewById(R.id.tv_title_news_top_item);
-				holder.tv_Description = (TextView) convertView
-						.findViewById(R.id.tv_description_news_top_item);
+				convertView = getLayoutInflater().inflate(R.layout.layout_news_top_item, null);
+				holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date_news_top_item);
+				holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title_news_top_item);
+				holder.tv_Description = (TextView) convertView.findViewById(R.id.tv_description_news_top_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();

@@ -1,4 +1,4 @@
-package cn.buaa.myweixin;
+﻿package cn.buaa.myweixin;
 
 
 import android.os.Bundle;

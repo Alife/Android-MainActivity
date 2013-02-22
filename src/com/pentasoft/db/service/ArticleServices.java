@@ -38,6 +38,10 @@ public class ArticleServices {
 	}
 
 	public List<Article> getRemoteArticle(int columnid) {
+		return getRemoteArticle(columnid, false);
+	}
+
+	public List<Article> getRemoteArticle(int columnid, boolean isImage) {
 		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
 		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC).first();
 		int maxId = 0;
@@ -48,6 +52,7 @@ public class ArticleServices {
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		nameValuePair.add(new BasicNameValuePair("id", String.valueOf(maxId)));
 		nameValuePair.add(new BasicNameValuePair("columnid", String.valueOf(columnid)));
+		nameValuePair.add(new BasicNameValuePair("isImage", String.valueOf(isImage)));
 
 		String string = HttpGet(url, nameValuePair);
 
@@ -62,7 +67,7 @@ public class ArticleServices {
 	}
 
 	private List<Article> parseArticleList(String json) {
-		Log.v("json:", json);
+		// Log.v("json:", json);
 
 		List<Article> list = new ArrayList<Article>();
 		if (json != null && !"".equals(json)) {
@@ -73,8 +78,9 @@ public class ArticleServices {
 				System.out.println("Title:" + rss.getTitle());
 				// System.out.println("Content:" + rss.getContent());
 				// System.out.println("Summary:" + rss.getSummary());
-				System.out.println("DateCreated:" + rss.getDateCreated());
+				System.out.println("DateCreated:" + rss.getReleaseDate());
 				System.out.println("ColumnId:" + rss.getColumnId());
+				System.out.println("ImageUrl:" + rss.getImageUrl());
 			}
 		}
 
@@ -119,7 +125,7 @@ public class ArticleServices {
 			}
 			result = builder.toString();
 			// Log.v("url response:", "true. result:" + result);
-			Log.v("url response:", result);
+			// Log.v("url response:", result);
 		} catch (ConnectTimeoutException e) {
 			Log.v("ConnectTimeoutException", "false. message:time out");
 			e.printStackTrace();

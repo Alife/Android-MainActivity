@@ -1,4 +1,4 @@
-package cn.buaa.myweixin.base;
+﻿package cn.buaa.myweixin.base;
 
 import net.tsz.afinal.FinalDb;
 import android.app.ActivityGroup;

@@ -1,12 +1,16 @@
 package com.and.netease;
 
-
 public class CONST {
 
 	public static final String Url_Host = "http://fuwaitest.91health.net";
-	public static final String Url_Article_List = Url_Host
-			+ "/android/GetArticleList";
-	public static final String Url_Article = Url_Host + "/android/GetArticle";
+	public static final String Url_ImgHost = "http://fuwaitest.91health.net";
+	public static final String Url_Article_List = Url_Host + "/json/articles/list";
+	public static final String Url_Article = Url_Host + "/json/articles/get";
+	public static final int Article_News_ColumnId = 18;
+	public static final int Article_Placard_ColumnId = 19;
+	public static final int Article_Media_ColumnId = 22;
+	public static final int Article_research_ColumnId = 94;
+	public static final int Article_InterView_ColumnId = 28;
 
 	public static final String URL_NEWS_TOP = "http://news.163.com/special/00011K6L/rss_newstop.xml";
 	public static final String URL_NEWS_SPORT = "http://sports.163.com/special/00051K7F/rss_sportslq.xml";
@@ -14,36 +18,36 @@ public class CONST {
 	public static final String URL_NEWS_FINANCE = "http://money.163.com/special/00252EQ2/yaowenrss.xml";
 	public static final String URL_NEWS_SCIENCE = "http://tech.163.com/special/000944OI/headlines.xml";
 
-	// 国内
+	// 鍥藉唴
 	public static final String URL_NEWS_DOMESTIC = "http://news.163.com/special/00011K6L/rss_gn.xml";
-	// 军事
+	// 鍐涗簨
 	public static final String URL_NEWS_MILITARY = "http://news.163.com/special/00011K6L/rss_war.xml";
-	// 国际
+	// 鍥介檯
 	public static final String URL_NEWS_INTERNATIONAL = "http://news.163.com/special/00011K6L/rss_gj.xml";
-	// 社会
+	// 绀句細
 	public static final String URL_NEWS_COMMUNITY = "http://news.163.com/special/00011K6L/rss_sh.xml";
-	// 深度
+	// 娣卞害
 	public static final String URL_NEWS_DEPTH = "http://news.163.com/special/00011K6L/rss_hotnews.xml";
-	// 彩票
+	// 褰╃エ
 	public static final String URL_NEWS_TICKET = "http://sports.163.com/special/00051K7F/rss_sportscp.xml";
-	// 电影
+	// 鐢靛奖
 	public static final String URL_NEWS_FILM = "http://ent.163.com/special/00031K7Q/rss_entmovie.xml";
-	// 音乐
+	// 闊充箰
 	public static final String URL_NEWS_MUSIC = "http://ent.163.com/special/00031K7Q/rss_entmusic.xml";
 	// IT
 	public static final String URL_NEWS_IT = "http://tech.163.com/special/000944OI/kejiyejie.xml";
-	// 汽车
+	// 姹借溅
 	public static final String URL_NEWS_CAR = "http://auto.163.com/special/00081K7D/rsstoutiao.xml";
-	// 数码
+	// 鏁扮爜
 	public static final String URL_NEWS_DIGITAL = "http://tech.163.com/digi/special/00161K7K/rss_digixj.xml";
 
-	// 网易话题
+	// 缃戞槗璇濋
 	public static final String URL_TOPIC = "http://news.163.com/special/00011K6L/rss_newsspecial.xml";
-	// 网易图片
+	// 缃戞槗鍥剧墖
 	public static final String URL_PICTURE = "http://news.163.com/special/00011K6L/rss_photo.xml";
-	// 网易跟帖
+	// 缃戞槗璺熷笘
 	public static final String URL_FOLLOW = "";
-	// 网易投票
+	// 缃戞槗鎶曠エ
 	public static final String URL_VOTE = "";
 
 }

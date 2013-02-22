@@ -1,19 +1,7 @@
 package com.and.netease;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,15 +15,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import cn.buaa.myweixin.R;
+import cn.buaa.myweixin.base.BaseActivity;
 
 import com.and.netease.rss.RSSHandler;
-import com.and.netease.rss.RSSItem;
+import com.pentasoft.db.model.Article;
+import com.pentasoft.db.service.ArticleServices;
 
-public class TabNewsFinanceActivity extends Activity {
+public class TabNewsFinanceActivity extends BaseActivity {
 
 	ListView listView;
 
-	List<RSSItem> list;
+	List<Article> list;
 	RSSHandler rssHandler;
 
 	MyAdapter adapter;
@@ -72,21 +62,24 @@ public class TabNewsFinanceActivity extends Activity {
 			public void run() {
 				super.run();
 				try {
-					URL url = new URL(CONST.URL_NEWS_FINANCE);
-					URLConnection con = url.openConnection();
-					con.connect();
+					// URL url = new URL(CONST.URL_NEWS_FINANCE);
+					// URLConnection con = url.openConnection();
+					// con.connect();
+					//
+					// InputStream input = con.getInputStream();
+					//
+					// SAXParserFactory fac = SAXParserFactory.newInstance();
+					// SAXParser parser = fac.newSAXParser();
+					// XMLReader reader = parser.getXMLReader();
+					// reader.setContentHandler(rssHandler);
+					// // Reader r = new InputStreamReader(input,
+					// // Charset.forName("GBK"));
+					// Reader r = new InputStreamReader(input);
+					// reader.parse(new InputSource(r));
+					// list = rssHandler.getData();
 
-					InputStream input = con.getInputStream();
+					list = new ArticleServices(db).getRemoteArticle(CONST.Article_research_ColumnId);
 
-					SAXParserFactory fac = SAXParserFactory.newInstance();
-					SAXParser parser = fac.newSAXParser();
-					XMLReader reader = parser.getXMLReader();
-					reader.setContentHandler(rssHandler);
-					// Reader r = new InputStreamReader(input,
-					// Charset.forName("GBK"));
-					Reader r = new InputStreamReader(input);
-					reader.parse(new InputSource(r));
-					list = rssHandler.getData();
 					if (list.size() == 0) {
 						handler.sendEmptyMessage(-1);
 					} else {
@@ -117,6 +110,7 @@ public class TabNewsFinanceActivity extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent intent = new Intent(TabNewsFinanceActivity.this, NewsContentActivity.class);
 			intent.putExtra("content_url", list.get(position).getLink());
+			intent.putExtra("content_title", list.get(position).getTitle());
 			TabNewsFinanceActivity.this.startActivityForResult(intent, position);
 		}
 	};
@@ -152,9 +146,9 @@ public class TabNewsFinanceActivity extends Activity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			holder.tv_date.setText(list.get(position).getPubDate());
+			holder.tv_date.setText(list.get(position).getReleaseDate().toLocaleString());
 			holder.tv_title.setText(list.get(position).getTitle());
-			holder.tv_Description.setText(list.get(position).getDescription());
+			holder.tv_Description.setText(list.get(position).getSummary());
 
 			return convertView;
 		}
@@ -171,12 +165,12 @@ public class TabNewsFinanceActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		System.out.println("返回");
-		if (resultCode == RESULT_OK) {
-			// 确认中
-			View v = (View) listView.getItemAtPosition(requestCode);
-			TextView tv = (TextView) v.findViewById(R.id.tv_title_news_top_item);
-			tv.setText("hello");
-			adapter.notifyDataSetChanged();
-		}
+		// if (resultCode == RESULT_OK) {
+		// // 确认中
+		// View v = (View) listView.getItemAtPosition(requestCode);
+		// TextView tv = (TextView) v.findViewById(R.id.tv_title_news_top_item);
+		// tv.setText("hello");
+		// adapter.notifyDataSetChanged();
+		// }
 	}
 }
