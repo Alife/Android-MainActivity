@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.and.netease.CONST;
 import com.pentasoft.db.model.Article;
 import com.wagnerandade.coollection.query.order.Order;
 
@@ -36,40 +37,48 @@ public class ArticleServices {
 		this.finalDb = _finalDb;
 	}
 
-	public List<Article> getRemoteArticle() {
+	public List<Article> getRemoteArticle(int columnid) {
 		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
-		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC)
-				.first();
+		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC).first();
 		int maxId = 0;
 		if (lastArticle != null) {
 			maxId = lastArticle.getArticleId();
 		}
-		// String url =
-		// "http://fuwaitest.91health.net/android/GetArticleList?id=" + maxId;
-		String url = "http://10.0.2.2:8001/android/GetArticleList?id=" + maxId;
-		String string = HttpGet(url);
+		String url = CONST.Url_Article_List;
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+		nameValuePair.add(new BasicNameValuePair("id", String.valueOf(maxId)));
+		nameValuePair.add(new BasicNameValuePair("columnid", String.valueOf(columnid)));
 
-		return parseArticleList(string);
+		String string = HttpGet(url, nameValuePair);
+
+		List<Article> listWebArticles = parseArticleList(string);
+
+		return listWebArticles;
+	}
+
+	public List<Article> getLocalArticleList() {
+		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
+		return list;
 	}
 
 	private List<Article> parseArticleList(String json) {
-		List<Article> result = null;
-
 		Log.v("json:", json);
-		System.out.println(json);
 
-		List<Article> list = JSON.parseArray(json, Article.class);
-		for (Article rss : list) {
-			System.out.println("ArticleId:" + rss.getArticleId());
-			System.out.println("Title:" + rss.getTitle());
-			System.out.println("Content:" + rss.getContent());
-			System.out.println("Summary:" + rss.getSummary());
-			System.out.println("DateCreated:" + rss.getDateCreated());
-			System.out.println("ColumnId:" + rss.getColumnId());
+		List<Article> list = new ArrayList<Article>();
+		if (json != null && !"".equals(json)) {
+			list = JSON.parseArray(json, Article.class);
+
+			for (Article rss : list) {
+				System.out.println("ArticleId:" + rss.getArticleId());
+				System.out.println("Title:" + rss.getTitle());
+				// System.out.println("Content:" + rss.getContent());
+				// System.out.println("Summary:" + rss.getSummary());
+				System.out.println("DateCreated:" + rss.getDateCreated());
+				System.out.println("ColumnId:" + rss.getColumnId());
+			}
 		}
-		result = list;
 
-		return result;
+		return list;
 	}
 
 	public ArrayList<HashMap<String, String>> getArticleArrayList() {
@@ -83,10 +92,6 @@ public class ArticleServices {
 		return list;
 	}
 
-	private String HttpGet(String string) {
-		return HttpGet(string, null);
-	}
-
 	private String HttpGet(String url, List<NameValuePair> paras) {
 		String result = "";
 
@@ -97,29 +102,29 @@ public class ArticleServices {
 			if (url.indexOf("?") == -1)
 				url += "?";
 			for (NameValuePair nameValuePair : paras) {
-				result += nameValuePair.getName() + "="
-						+ nameValuePair.getValue() + "&";
+				String valueString = nameValuePair.getValue();
+				if (valueString != null && !"".equals(valueString.trim()))
+					url += nameValuePair.getName() + "=" + valueString + "&";
 			}
 		}
 
-		Log.v("url response:", url + result);
+		Log.v("url response:", url);
 
 		try {
-			HttpGet myget = new HttpGet(url + result);
+			HttpGet myget = new HttpGet(url);
 			HttpResponse response = client.execute(myget);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			for (String s = reader.readLine(); s != null; s = reader.readLine()) {
 				builder.append(s);
 			}
 			result = builder.toString();
 			// Log.v("url response:", "true. result:" + result);
-			Log.v("url response:", "true. result:");
+			Log.v("url response:", result);
 		} catch (ConnectTimeoutException e) {
-			Log.v("url response:", "false. message:time out");
+			Log.v("ConnectTimeoutException", "false. message:time out");
 			e.printStackTrace();
 		} catch (Exception e) {
-			Log.v("url response:", "false. message:" + e.getMessage());
+			Log.v("Exception", "false. message:" + e.getMessage());
 			e.printStackTrace();
 		}
 		return result;
@@ -130,16 +135,14 @@ public class ArticleServices {
 
 		StringBuilder builder = new StringBuilder();
 
-		DefaultHttpClient httpClient = new DefaultHttpClient();// http¿Í»§¶Ë
+		DefaultHttpClient httpClient = new DefaultHttpClient();// httpï¿½Í»ï¿½ï¿½ï¿½
 		HttpPost httppost = new HttpPost(url);
 		httppost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		if (paras != null && paras.size() > 0) {
 			for (NameValuePair nameValuePair : paras) {
-				list.add(new BasicNameValuePair(nameValuePair.getName(),
-						nameValuePair.getValue()));
-				result += nameValuePair.getName() + "="
-						+ nameValuePair.getValue() + "&";
+				list.add(new BasicNameValuePair(nameValuePair.getName(), nameValuePair.getValue()));
+				result += nameValuePair.getName() + "=" + nameValuePair.getValue() + "&";
 			}
 		}
 
@@ -148,7 +151,7 @@ public class ArticleServices {
 		try {
 			httppost.setEntity(new UrlEncodedFormEntity(list, HTTP.UTF_8));
 			HttpResponse response = httpClient.execute(httppost);
-			// µÃµ½Ó¦´ðµÄ×Ö·û´®£¬ÕâÒ²ÊÇÒ»¸ö JSON ¸ñÊ½±£´æµÄÊý¾Ý
+			// ï¿½Ãµï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ò²ï¿½ï¿½Ò»ï¿½ï¿½ JSON ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			builder.append(EntityUtils.toString(response.getEntity()));
 			result = builder.toString();
 			Log.v("url response:", "true. result:" + result);

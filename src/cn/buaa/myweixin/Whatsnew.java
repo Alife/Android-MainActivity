@@ -1,4 +1,4 @@
-package cn.buaa.myweixin;
+ï»¿package cn.buaa.myweixin;
 
 import java.util.ArrayList;
 import android.os.Bundle;
@@ -41,7 +41,7 @@ public class Whatsnew extends Activity {
         mPage4 = (ImageView)findViewById(R.id.page4);
         mPage5 = (ImageView)findViewById(R.id.page5);
         
-      //½«Òª·ÖÒ³ÏÔÊ¾µÄView×°ÈëÊı×éÖĞ
+      //å°†è¦åˆ†é¡µæ˜¾ç¤ºçš„Viewè£…å…¥æ•°ç»„ä¸­
         LayoutInflater mLi = LayoutInflater.from(this);
         View view1 = mLi.inflate(R.layout.whats1, null);
         View view2 = mLi.inflate(R.layout.whats2, null);
@@ -50,7 +50,7 @@ public class Whatsnew extends Activity {
         View view5 = mLi.inflate(R.layout.whats5, null);
         View view6 = mLi.inflate(R.layout.whats6, null);
         
-      //Ã¿¸öÒ³ÃæµÄviewÊı¾İ
+      //æ¯ä¸ªé¡µé¢çš„viewæ•°æ®
         final ArrayList<View> views = new ArrayList<View>();
         views.add(view1);
         views.add(view2);
@@ -59,7 +59,7 @@ public class Whatsnew extends Activity {
         views.add(view5);
         views.add(view6);
         
-        //Ìî³äViewPagerµÄÊı¾İÊÊÅäÆ÷
+        //å¡«å……ViewPagerçš„æ•°æ®é€‚é…å™¨
         PagerAdapter mPagerAdapter = new PagerAdapter() {
 			
 			@Override
@@ -124,7 +124,7 @@ public class Whatsnew extends Activity {
 				break;
 			}
 			currIndex = arg0;
-			//animation.setFillAfter(true);// True:Í¼Æ¬Í£ÔÚ¶¯»­½áÊøÎ»ÖÃ
+			//animation.setFillAfter(true);// True:å›¾ç‰‡åœåœ¨åŠ¨ç”»ç»“æŸä½ç½®
 			//animation.setDuration(300);
 			//mPageImg.startAnimation(animation);
 		}

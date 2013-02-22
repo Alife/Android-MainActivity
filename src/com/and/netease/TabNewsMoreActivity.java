@@ -32,10 +32,8 @@ public class TabNewsMoreActivity extends Activity {
 	private OnItemClickListener listener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			Intent intent = new Intent(TabNewsMoreActivity.this,
-					NewsMoreContentActivity.class);
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent = new Intent(TabNewsMoreActivity.this, NewsMoreContentActivity.class);
 			Bundle bundle = new Bundle();
 			switch (position) {
 			case 0:
@@ -45,8 +43,7 @@ public class TabNewsMoreActivity extends Activity {
 				bundle.putString("more_news_list_url", CONST.URL_NEWS_MILITARY);
 				break;
 			case 2:
-				bundle.putString("more_news_list_url",
-						CONST.URL_NEWS_INTERNATIONAL);
+				bundle.putString("more_news_list_url", CONST.URL_NEWS_INTERNATIONAL);
 				break;
 			case 3:
 				bundle.putString("more_news_list_url", CONST.URL_NEWS_COMMUNITY);
@@ -102,11 +99,9 @@ public class TabNewsMoreActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 			if (convertView == null) {
-				convertView = getLayoutInflater().inflate(
-						R.layout.layout_news_more_item, null);
+				convertView = getLayoutInflater().inflate(R.layout.layout_news_more_item, null);
 				holder = new ViewHolder();
-				holder.tv = (TextView) convertView
-						.findViewById(R.id.tv_news_more_item);
+				holder.tv = (TextView) convertView.findViewById(R.id.tv_news_more_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();

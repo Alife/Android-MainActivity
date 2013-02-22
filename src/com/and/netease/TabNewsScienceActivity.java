@@ -60,8 +60,7 @@ public class TabNewsScienceActivity extends Activity {
 		listView = new ListView(this);
 		listView.setCacheColorHint(Color.argb(0, 0, 0, 0));
 		viewSwitcher.addView(listView);
-		viewSwitcher.addView(getLayoutInflater().inflate(
-				R.layout.layout_progress_page, null));
+		viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page, null));
 		viewSwitcher.showNext();
 		listView.setOnItemClickListener(listener);
 
@@ -115,13 +114,10 @@ public class TabNewsScienceActivity extends Activity {
 	private OnItemClickListener listener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			Intent intent = new Intent(TabNewsScienceActivity.this,
-					NewsContentActivity.class);
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent = new Intent(TabNewsScienceActivity.this, NewsContentActivity.class);
 			intent.putExtra("content_url", list.get(position).getLink());
-			TabNewsScienceActivity.this
-					.startActivityForResult(intent, position);
+			TabNewsScienceActivity.this.startActivityForResult(intent, position);
 		}
 	};
 
@@ -147,14 +143,10 @@ public class TabNewsScienceActivity extends Activity {
 			ViewHolder holder;
 			if (convertView == null) {
 				holder = new ViewHolder();
-				convertView = getLayoutInflater().inflate(
-						R.layout.layout_news_top_item, null);
-				holder.tv_date = (TextView) convertView
-						.findViewById(R.id.tv_date_news_top_item);
-				holder.tv_title = (TextView) convertView
-						.findViewById(R.id.tv_title_news_top_item);
-				holder.tv_Description = (TextView) convertView
-						.findViewById(R.id.tv_description_news_top_item);
+				convertView = getLayoutInflater().inflate(R.layout.layout_news_top_item, null);
+				holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date_news_top_item);
+				holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title_news_top_item);
+				holder.tv_Description = (TextView) convertView.findViewById(R.id.tv_description_news_top_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -178,12 +170,11 @@ public class TabNewsScienceActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		System.out.println("·µ»Ø");
+		System.out.println("è¿”å›ž");
 		if (resultCode == RESULT_OK) {
-			// È·ÈÏÖÐ
+			// ç¡®è®¤ä¸­
 			View v = (View) listView.getItemAtPosition(requestCode);
-			TextView tv = (TextView) v
-					.findViewById(R.id.tv_title_news_top_item);
+			TextView tv = (TextView) v.findViewById(R.id.tv_title_news_top_item);
 			tv.setText("hello");
 			adapter.notifyDataSetChanged();
 		}

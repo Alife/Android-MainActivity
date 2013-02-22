@@ -1,22 +1,22 @@
-package com.and.netease.utils;
+锘縫ackage com.and.netease.utils;
 
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 
 public class MoveBg {
 	/**
-	 * 移动方法
+	 * 绉诲姩鏂规硶
 	 * 
 	 * @param v
-	 *            需要移动的View
+	 *            闇�瑕佺Щ鍔ㄧ殑View
 	 * @param startX
-	 *            起始x坐标
+	 *            璧峰x鍧愭爣
 	 * @param toX
-	 *            终止x坐标
+	 *            缁堟x鍧愭爣
 	 * @param startY
-	 *            起始y坐标
+	 *            璧峰y鍧愭爣
 	 * @param toY
-	 *            终止y坐标
+	 *            缁堟y鍧愭爣
 	 */
 	public static void moveFrontBg(View v, int startX, int toX, int startY, int toY) {
 		TranslateAnimation anim = new TranslateAnimation(startX, toX, startY, toY);

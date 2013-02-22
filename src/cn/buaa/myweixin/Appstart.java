@@ -1,21 +1,23 @@
 package cn.buaa.myweixin;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import cn.buaa.myweixin.base.BaseActivity;
 
-public class Appstart extends Activity {
+import com.pentasoft.db.model.SettingSystem;
+
+public class Appstart extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.appstart);
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);//È¥µô±êÌâÀ¸
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);//å»æ‰æ ‡é¢˜æ 
 		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN); //È«ÆÁÏÔÊ¾
-		// Toast.makeText(getApplicationContext(), "º¢×Ó£¡ºÃºÃ±³ËĞ£¡",
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN); //å…¨å±æ˜¾ç¤º
+		// Toast.makeText(getApplicationContext(), "å­©å­ï¼å¥½å¥½èƒŒè¯µï¼",
 		// Toast.LENGTH_LONG).show();
 		// overridePendingTransition(R.anim.hyperspace_in,
 		// R.anim.hyperspace_out);
@@ -23,18 +25,27 @@ public class Appstart extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				// Ö±½Ó½øÈëÖ÷Ò³
+				// ç›´æ¥è¿›å…¥ä¸»é¡µ
 				// Intent intent = new Intent(Appstart.this, Welcome.class);
 				// startActivity(intent);
 
-				// ÅĞ¶ÏÊÇ·ñÊÇµÚÒ»´Î½øÈë
-				// µÚÒ»´Î½øÈëÏÔÊ¾½éÉÜ½çÃæ,·ñÔòÖ±½Ó½øÈëÖ÷Ò³
-				boolean isfirst = false;
+				// åˆ¤æ–­æ˜¯å¦æ˜¯ç¬¬ä¸€æ¬¡è¿›å…¥
+				// ç¬¬ä¸€æ¬¡è¿›å…¥æ˜¾ç¤ºä»‹ç»ç•Œé¢,å¦åˆ™ç›´æ¥è¿›å…¥ä¸»é¡µ
+				boolean isfirst = true;
+				SettingSystem settingSystem = db.findById(1, SettingSystem.class);
+				if (settingSystem != null && settingSystem.getIsFirst().equals("1")) {
+					isfirst = false;
+				} else {
+					settingSystem = new SettingSystem();
+					settingSystem.SettingSystemId = 1;
+					settingSystem.IsFirst = "1";
+					db.save(settingSystem);
+				}
 				if (isfirst) {
 					Intent intent = new Intent(Appstart.this, Whatsnew.class);
 					startActivity(intent);
 				} else {
-					Intent intent = new Intent(Appstart.this, MainWeixin.class);
+					Intent intent = new Intent(Appstart.this, Main.class);
 					startActivity(intent);
 				}
 

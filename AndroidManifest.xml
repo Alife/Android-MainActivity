@@ -6,14 +6,19 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="15" />
-    
-    <uses-permission android:name="android.permission.VIBRATE" />
-    
+
+    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.CAMERA"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<uses-permission android:name="android.permission.FLASHLIGHT"/>
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera.autofocus" />
+ 	<uses-permission android:name="android.permission.RECORD_AUDIO" /> 
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name"
-         >
+        android:label="@string/app_name" >
         <activity
             android:name=".Appstart"
             android:label="@string/title_activity_main"
@@ -24,19 +29,62 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WhatsnewDoor" android:theme="@style/Anim_style2" />
-        <activity android:name=".MainWeixin" android:theme="@style/Anim_style2" />
-        <activity android:name=".Login"  android:theme="@android:style/Theme.NoTitleBar" />        
-        <activity android:name=".Welcome"  android:theme="@style/Anim_style2"  />
-        <activity android:name=".Whatsnew"  android:theme="@style/Anim_style2" />
-        <activity android:name=".ChatActivity"  android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".ShakeActivity"  android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".InfoXiaohei"  android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name="Exit" android:theme="@style/MyDialogStyle" />        
-        <activity android:name="ExitFromSettings" android:theme="@style/MyDialogStyleBottom" /> 
-        <activity android:name="InfoXiaoheiHead" android:theme="@style/HeadScale" />
-        <activity android:name="LoadingActivity" android:theme="@style/MyDialogStyle" />             
-        <activity android:name="MainTopRightDialog" android:theme="@style/MyDialogStyleTop" /> 
+        <activity
+            android:name=".WhatsnewDoor"
+            android:theme="@style/Anim_style2" />
+        <activity
+            android:name=".MainWeixin"
+            android:theme="@style/Anim_style2" />
+        <activity
+            android:name=".Main"
+            android:theme="@style/Anim_style2" />
+        <activity
+            android:name=".Login"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".Welcome"
+            android:theme="@style/Anim_style2" />
+        <activity
+            android:name=".Whatsnew"
+            android:theme="@style/Anim_style2" />
+        <activity
+            android:name=".ChatActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".ShakeActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".InfoXiaohei"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="Exit"
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name="ExitFromSettings"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
+            android:name="InfoXiaoheiHead"
+            android:theme="@style/HeadScale" />
+        <activity
+            android:name="LoadingActivity"
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name="MainTopRightDialog"
+            android:theme="@style/MyDialogStyleTop" />
+        
+        <activity android:name="com.and.netease.TabNewsActivity" />
+        <activity android:name="com.and.netease.TabTopicActivity" />
+        <activity android:name="com.and.netease.TabPicActivity" />
+        <activity android:name="com.and.netease.TabFollowActivity" />
+        <activity android:name="com.and.netease.TabVoteActivity" />
+        <activity android:name="com.and.netease.TabNewsTopActivity" />
+        <activity android:name="com.and.netease.TabNewsSportActivity" />
+        <activity android:name="com.and.netease.TabNewsPlayActivity" />
+        <activity android:name="com.and.netease.TabNewsFinanceActivity" />
+        <activity android:name="com.and.netease.TabNewsScienceActivity" />
+        <activity android:name="com.and.netease.TabNewsMoreActivity" />
+        <activity android:name="com.and.netease.NewsContentActivity" />
+        <activity android:name="com.and.netease.NewsMoreContentActivity" />
     </application>
 
 </manifest>

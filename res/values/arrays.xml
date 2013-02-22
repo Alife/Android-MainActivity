@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="more">
-        <item >国内</item>
-        <item >军事</item>
-        <item >国际</item>
-        <item >社会</item>
-        <item >深度</item>
-        <item >彩票</item>
-        <item >电影</item>
-        <item >音乐</item>
-        <item >IT</item>
-        <item >汽车</item>
-        <item >数码</item>        <item >深度</item>
-        <item >彩票</item>
-        <item >电影</item>
-        <item >音乐</item>
-        <item >IT</item>
-        <item >汽车</item>
-        <item >数码</item>        <item >深度</item>
-        <item >彩票</item>
-        <item >电影</item>
-        <item >音乐</item>
-        <item >IT</item>
-        <item >汽车</item>
-        <item >数码</item>
+        <item>国内</item>
+        <item>军事</item>
+        <item>国际</item>
+        <item>社会</item>
+        <item>深度</item>
+        <item>彩票</item>
+        <item>电影</item>
+        <item>音乐</item>
+        <item>IT</item>
+        <item>汽车</item>
+        <item>数码</item>
+        <item>深度</item>
+        <item>彩票</item>
+        <item>电影</item>
+        <item>音乐</item>
+        <item>IT</item>
+        <item>汽车</item>
+        <item>数码</item>
+        <item>深度</item>
+        <item>彩票</item>
+        <item>电影</item>
+        <item>音乐</item>
+        <item>IT</item>
+        <item>汽车</item>
+        <item>数码</item>
     </string-array>
-    
+
 </resources>

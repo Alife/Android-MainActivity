@@ -2,8 +2,8 @@ package cn.buaa.myweixin;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
@@ -20,10 +21,24 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import cn.buaa.myweixin.base.BaseActivityGroup;
 
-public class MainWeixin extends Activity {
+import com.and.netease.TabNewsFinanceActivity;
+import com.and.netease.TabNewsMoreActivity;
+import com.and.netease.TabNewsPlayActivity;
+import com.and.netease.TabNewsScienceActivity;
+import com.and.netease.TabNewsSportActivity;
+import com.and.netease.TabNewsTopActivity;
+import com.and.netease.utils.MoveBg;
 
-	public static MainWeixin instance = null;
+/*
+ 根据 mainweixin 修改的首页展示新闻列表
+ */
+public class Main extends BaseActivityGroup {
+
+	public static Main instance = null;
 
 	private ViewPager mTabPager;
 	private ImageView mTabImg;// 动画图片
@@ -39,6 +54,7 @@ public class MainWeixin extends Activity {
 	private boolean menu_display = false;
 	private PopupWindow menuWindow;
 	private LayoutInflater inflater;
+	View view1;
 
 	// private Button mRightBtn;
 
@@ -79,7 +95,7 @@ public class MainWeixin extends Activity {
 		// InitImageView();//使用动画
 		// 将要分页显示的View装入数组中
 		LayoutInflater mLi = LayoutInflater.from(this);
-		View view1 = mLi.inflate(R.layout.main_tab_weixin, null);
+		view1 = mLi.inflate(R.layout.main_tab_home, null);
 		View view2 = mLi.inflate(R.layout.main_tab_address, null);
 		View view3 = mLi.inflate(R.layout.main_tab_friends, null);
 		View view4 = mLi.inflate(R.layout.main_tab_settings, null);
@@ -90,6 +106,7 @@ public class MainWeixin extends Activity {
 		views.add(view2);
 		views.add(view3);
 		views.add(view4);
+
 		// 填充ViewPager的数据适配器
 		PagerAdapter mPagerAdapter = new PagerAdapter() {
 
@@ -121,6 +138,8 @@ public class MainWeixin extends Activity {
 		};
 
 		mTabPager.setAdapter(mPagerAdapter);
+
+		initViews();
 	}
 
 	/**
@@ -234,7 +253,7 @@ public class MainWeixin extends Activity {
 				menu_display = false;
 			} else {
 				Intent intent = new Intent();
-				intent.setClass(MainWeixin.this, Exit.class);
+				intent.setClass(Main.this, Exit.class);
 				startActivity(intent);
 			}
 		}
@@ -267,7 +286,7 @@ public class MainWeixin extends Activity {
 						// Toast.makeText(Main.this, "退出",
 						// Toast.LENGTH_LONG).show();
 						Intent intent = new Intent();
-						intent.setClass(MainWeixin.this, Exit.class);
+						intent.setClass(Main.this, Exit.class);
 						startActivity(intent);
 						menuWindow.dismiss(); // 响应点击事件之后关闭Menu
 					}
@@ -286,26 +305,148 @@ public class MainWeixin extends Activity {
 
 	// 设置标题栏右侧按钮的作用
 	public void btnmainright(View v) {
-		Intent intent = new Intent(MainWeixin.this, MainTopRightDialog.class);
+		Intent intent = new Intent(Main.this, MainTopRightDialog.class);
 		startActivity(intent);
 		// Toast.makeText(getApplicationContext(), "点击了功能按钮",
 		// Toast.LENGTH_LONG).show();
 	}
 
 	public void startchat(View v) { // 小黑 对话界面
-		Intent intent = new Intent(MainWeixin.this, ChatActivity.class);
+		Intent intent = new Intent(Main.this, ChatActivity.class);
 		startActivity(intent);
 		// Toast.makeText(getApplicationContext(), "登录成功",
 		// Toast.LENGTH_LONG).show();
 	}
 
 	public void exit_settings(View v) { // 退出 伪“对话框”，其实是一个activity
-		Intent intent = new Intent(MainWeixin.this, ExitFromSettings.class);
+		Intent intent = new Intent(Main.this, ExitFromSettings.class);
 		startActivity(intent);
 	}
 
 	public void btn_shake(View v) { // 手机摇一摇
-		Intent intent = new Intent(MainWeixin.this, ShakeActivity.class);
+		Intent intent = new Intent(Main.this, ShakeActivity.class);
 		startActivity(intent);
 	}
+
+	RelativeLayout layout_title_bar;
+	RelativeLayout layout_news_main;
+	LayoutInflater layoutInflater;
+	Intent intent;
+	View page;// 用来存放顶部具体分类的view
+	TextView tv_front;// 需要移动的View
+	TextView tv_bar_news;
+	TextView tv_bar_sport;
+	TextView tv_bar_play;
+	TextView tv_bar_finance;
+	TextView tv_bar_science;
+	TextView tv_bar_more;
+
+	int avg_width = 0;// 用于记录平均每个标签的宽度，移动的时候需要
+
+	private void initViews() {
+		layout_title_bar = (RelativeLayout) view1.findViewById(R.id.layout_title_bar);
+		layout_news_main = (RelativeLayout) view1.findViewById(R.id.layout_news_main);
+		layoutInflater = getLayoutInflater();
+
+		tv_bar_news = (TextView) view1.findViewById(R.id.tv_title_bar_news);
+		tv_bar_sport = (TextView) view1.findViewById(R.id.tv_title_bar_sport);
+		tv_bar_play = (TextView) view1.findViewById(R.id.tv_title_bar_play);
+		tv_bar_finance = (TextView) view1.findViewById(R.id.tv_title_bar_finance);
+		tv_bar_science = (TextView) view1.findViewById(R.id.tv_title_bar_science);
+		tv_bar_more = (TextView) view1.findViewById(R.id.tv_title_bar_more);
+
+		tv_bar_news.setOnClickListener(onClickListener);
+		tv_bar_sport.setOnClickListener(onClickListener);
+		tv_bar_play.setOnClickListener(onClickListener);
+		tv_bar_finance.setOnClickListener(onClickListener);
+		tv_bar_science.setOnClickListener(onClickListener);
+		tv_bar_more.setOnClickListener(onClickListener);
+
+		tv_front = new TextView(this);
+		tv_front.setBackgroundResource(R.drawable.slidebar);
+		tv_front.setTextColor(Color.WHITE);
+		tv_front.setText(R.string.title_news_category_tops);
+		tv_front.setGravity(Gravity.CENTER);
+		RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		param.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+		layout_title_bar.addView(tv_front, param);
+
+		// 默认显示“头条”
+		intent = new Intent(this, TabNewsTopActivity.class);
+		page = getLocalActivityManager().startActivity("activity1", intent).getDecorView();
+		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		layout_news_main.addView(page, params);
+
+	}
+
+	private OnClickListener onClickListener = new OnClickListener() {
+		int startX;// 移动的起始位置
+
+		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+
+		@Override
+		public void onClick(View v) {
+			avg_width = view1.findViewById(R.id.layout).getWidth();
+			switch (v.getId()) {
+			case R.id.tv_title_bar_news:
+				MoveBg.moveFrontBg(tv_front, startX, 0, 0, 0);
+				startX = 0;
+				tv_front.setText(R.string.title_news_category_tops);
+				// 准备显示“头条”
+				page = layoutInflater.inflate(R.layout.layout_news_top, null);
+				intent.setClass(Main.this, TabNewsTopActivity.class);
+				page = getLocalActivityManager().startActivity("activity1", intent).getDecorView();
+				break;
+			case R.id.tv_title_bar_sport:
+				MoveBg.moveFrontBg(tv_front, startX, avg_width, 0, 0);
+				startX = avg_width;
+				tv_front.setText(R.string.title_news_category_sport);
+				// 准备显示“体育”
+				intent.setClass(Main.this, TabNewsSportActivity.class);
+				page = getLocalActivityManager().startActivity("activity2", intent).getDecorView();
+				break;
+			case R.id.tv_title_bar_play:
+				MoveBg.moveFrontBg(tv_front, startX, avg_width * 2, 0, 0);
+				startX = avg_width * 2;
+				tv_front.setText(R.string.title_news_category_play);
+				// 准备显示“娱乐”
+				intent.setClass(Main.this, TabNewsPlayActivity.class);
+				page = getLocalActivityManager().startActivity("activity3", intent).getDecorView();
+				break;
+			case R.id.tv_title_bar_finance:
+				MoveBg.moveFrontBg(tv_front, startX, avg_width * 3, 0, 0);
+				startX = avg_width * 3;
+				tv_front.setText(R.string.title_news_category_finance);
+				// 准备显示“财经”
+				intent.setClass(Main.this, TabNewsFinanceActivity.class);
+				page = getLocalActivityManager().startActivity("activity4", intent).getDecorView();
+				break;
+			case R.id.tv_title_bar_science:
+				MoveBg.moveFrontBg(tv_front, startX, avg_width * 4, 0, 0);
+				startX = avg_width * 4;
+				tv_front.setText(R.string.title_news_category_science);
+				// 准备显示“科技”
+				intent.setClass(Main.this, TabNewsScienceActivity.class);
+				page = getLocalActivityManager().startActivity("activity5", intent).getDecorView();
+				break;
+			case R.id.tv_title_bar_more:
+				MoveBg.moveFrontBg(tv_front, startX, avg_width * 5, 0, 0);
+				startX = avg_width * 5;
+				tv_front.setText(R.string.title_news_category_more);
+				// 准备显示“更多”
+				intent.setClass(Main.this, TabNewsMoreActivity.class);
+				page = getLocalActivityManager().startActivity("activity6", intent).getDecorView();
+				break;
+
+			default:
+				break;
+			}
+			// 切换
+			layout_news_main.removeAllViews();
+			layout_news_main.addView(page, params);
+
+		}
+	};
+
 }

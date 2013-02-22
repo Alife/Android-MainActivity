@@ -10,7 +10,7 @@
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content" 
         android:gravity="center" 
-        android:text="\n微信\n超过1亿人使用的手机应用" 
+        android:text="@string/app_welcome_what1" 
         android:layout_alignParentTop="true"
         android:layout_marginTop="35dp"
         android:textSize="22sp"

@@ -10,7 +10,7 @@
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content" 
         android:gravity="center" 
-        android:text="摇一摇手机\n或者看看附近的人\n认识更多的朋友" 
+        android:text="@string/app_welcome_what4" 
         android:layout_alignParentTop="true"
         android:layout_marginTop="35dp"
         android:textSize="22sp"

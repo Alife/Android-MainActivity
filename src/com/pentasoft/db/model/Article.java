@@ -13,7 +13,7 @@ public class Article {
 	public String Title;
 	public String Summary;
 	public String Content;
-	// public String Link;
+	public String Link;
 	public int ColumnId;
 	public Date DateCreated;
 
@@ -65,12 +65,12 @@ public class Article {
 		this.DateCreated = dateCreated;
 	}
 
-	// public String getLink() {
-	// return Link;
-	// }
-	//
-	// public void setLink(String link) {
-	// Link = link;
-	// }
+	public String getLink() {
+		return Link;
+	}
+
+	public void setLink(String link) {
+		Link = link;
+	}
 
 }
