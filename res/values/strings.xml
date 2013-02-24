@@ -11,26 +11,29 @@
     <string name="app_welcome_what6"></string>
     <string name="app_welcome_what_door">医院手机应用,医疗随身带</string>
     <string name="app_welcome_start">开始</string>
+    <!-- 底部菜单 -->
     <string name="main_menu_home">主页</string>
     <string name="main_menu_follow">关注</string>
     <string name="main_menu_friend">朋友</string>
     <string name="main_menu_setting">设置</string>
+    <!-- 底部菜单点击之后 的界面标题 -->
     <string name="title_activity_home">主页</string>
     <string name="title_activity_follow">关注</string>
     <string name="title_activity_friend">朋友</string>
     <string name="title_activity_setting">设置</string>
+    <!-- 新闻页顶部栏目标题 -->
     <string name="title_news_category_tops">动态</string>
     <string name="title_news_category_sport">公告</string>
     <string name="title_news_category_play">媒体</string>
     <string name="title_news_category_finance">科研</string>
     <string name="title_news_category_science">访谈</string>
     <string name="title_news_category_more">更多</string>
-     <string name="news_top_left_text">新闻</string>
+    <!-- 滑动区域文字及链接 -->
+    <string name="news_top_left_text">新闻</string>
     <string name="topic_top_left_text">话题</string>
     <string name="picture_top_left_text">图片</string>
     <string name="follow_top_left_text">跟帖</string>
     <string name="vote_top_left_text">投票</string>
-    <!-- 滑动区域文字及链接 -->
     <string name="title1">苹果在中国市场：Google的劣势反而是苹果的优势</string>
     <string name="title2">吞噬大数据存储领域新机制——NoSQL模式解析</string>
     <string name="title3">神舟九号：宇航员会携带什么移动应用上天？</string>
@@ -38,5 +41,13 @@
     <string name="title5">Win8说：请把PC丢出窗外！</string>
     <string name="exit_dialog_title">确定要退出吗?</string>
     <string name="exit_dialog_message">退出之后将不能及时收到最新的问答反馈.</string>
+    <!-- 滑动区域文字及链接 -->
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">松开后刷新</string>
+    <string name="pull_to_refresh_refreshing_label">刷新\u2026</string>
+    <string name="pull_to_refresh_footer_release_label">松开后加载</string>
+    <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
+    <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
+    <string name="text">http://miloisbadboy.com/</string>
 
 </resources>

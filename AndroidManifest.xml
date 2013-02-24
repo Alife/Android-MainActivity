@@ -73,10 +73,6 @@
             android:theme="@style/MyDialogStyleTop" />
         
         <activity android:name="com.and.netease.TabNewsActivity" />
-        <activity android:name="com.and.netease.TabTopicActivity" />
-        <activity android:name="com.and.netease.TabPicActivity" />
-        <activity android:name="com.and.netease.TabFollowActivity" />
-        <activity android:name="com.and.netease.TabVoteActivity" />
         <activity android:name="com.and.netease.TabNewsTopActivity" />
         <activity android:name="com.and.netease.TabNewsSportActivity" />
         <activity android:name="com.and.netease.TabNewsPlayActivity" />

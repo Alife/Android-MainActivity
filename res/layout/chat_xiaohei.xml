@@ -19,7 +19,6 @@
             android:text="返回"
             android:textSize="14sp"
             android:textColor="#fff"
-            android:onClick="chat_back"
             android:background="@drawable/title_btn_back"
 		    />    
       		<TextView

@@ -18,8 +18,7 @@
         		android:textSize="20sp"		
 				android:textColor="#ffffff" />       
 			</LinearLayout>
-		<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    		xmlns:tools="http://schemas.android.com/tools"
+		<ScrollView 
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
     		android:scrollbarStyle="outsideOverlay" 

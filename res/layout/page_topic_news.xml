@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:fillViewport="true" >
 
-    <com.and.netease.layout.ScrollViewExtend
+    <com.and.netease.control.ScrollViewExtend
         android:layout_width="match_parent"
         android:layout_height="fill_parent" >
 
@@ -122,6 +122,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </com.and.netease.layout.ScrollViewExtend>
+    </com.and.netease.control.ScrollViewExtend>
 
 </RelativeLayout>

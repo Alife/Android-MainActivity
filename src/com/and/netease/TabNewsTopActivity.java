@@ -58,12 +58,27 @@ public class TabNewsTopActivity extends BaseActivity {
 		setTheme(android.R.style.Theme_Translucent_NoTitleBar);
 		initViews();
 
+		// load local data
+		// adapter = new MyAdapter();
+		// listView.setAdapter(adapter);
+		List<Article> locaList = db.findAll(Article.class);
+		Notification(String.valueOf(locaList.size()));
+
+		// get data from network asynchronous
 		rssHandler = new RSSHandler();
 		requestRSSFeed();
 
 		// 初始化滑动图片
 		// initeViews();
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// int count = listView.getAdapter().getCount();
+		// Notification(String.valueOf("current item count of listview is " +
+		// count));
 	}
 
 	private void initViews() {

@@ -9,7 +9,7 @@
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="40dip"
-        android:background="#990000" >
+        android:background="@drawable/title_bar" >
         
         <ImageButton 
             android:id="@+id/btn_newscontent_back"

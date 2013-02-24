@@ -58,6 +58,11 @@ public class ArticleServices {
 
 		List<Article> listWebArticles = parseArticleList(string);
 
+		// 将数据保存到本地数据库中
+		for (Article article : listWebArticles) {
+			finalDb.save(article);
+		}
+
 		return listWebArticles;
 	}
 
