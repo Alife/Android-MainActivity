@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -29,7 +26,7 @@ public class TabNewsPlayActivity extends BaseActivity {
 	List<Article> list;
 	RSSHandler rssHandler;
 
-	MyAdapter adapter;
+	ArticleAdapter adapter;
 
 	ViewSwitcher viewSwitcher;
 
@@ -100,7 +97,7 @@ public class TabNewsPlayActivity extends BaseActivity {
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 1) {
-				adapter = new MyAdapter();
+				adapter = new ArticleAdapter(TabNewsPlayActivity.this, list);
 				listView.setOnItemClickListener(listener);
 				listView.setAdapter(adapter);
 				viewSwitcher.showPrevious();
@@ -118,53 +115,6 @@ public class TabNewsPlayActivity extends BaseActivity {
 			TabNewsPlayActivity.this.startActivityForResult(intent, position);
 		}
 	};
-
-	private class MyAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return list.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return null;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder;
-			if (convertView == null) {
-				holder = new ViewHolder();
-				convertView = getLayoutInflater().inflate(R.layout.layout_news_top_item, null);
-				holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date_news_top_item);
-				holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title_news_top_item);
-				holder.tv_Description = (TextView) convertView.findViewById(R.id.tv_description_news_top_item);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-
-			String dateString = "";
-			if (list.get(position).getReleaseDate() != null)
-				dateString = list.get(position).getReleaseDate().toLocaleString();
-			holder.tv_date.setText(dateString);
-			holder.tv_title.setText(list.get(position).getTitle());
-			// TextView使用Html来处理图片显示
-			// Spanned text = Html.fromHtml(list.get(position).getDescription(),
-			// imgGetter, null);
-			holder.tv_Description
-					.setText(Html.fromHtml(list.get(position).getSummary()), TextView.BufferType.SPANNABLE);
-
-			return convertView;
-		}
-
-	}
 
 	public static class ViewHolder {
 		TextView tv_date;
