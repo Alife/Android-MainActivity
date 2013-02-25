@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ViewSwitcher 
-        android:id="@+id/viewswitcher_news_play"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-    </ViewSwitcher>
+<com.miloisbadboy.view.PullToRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_pull_refresh_view"
+    android:background="@android:color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:orientation="vertical">
+	<!-- 这里放置listview,gridview或者scrollview的布局 ,PullToRefreshView
+	要设置android:orientation="vertical"属性
+	否则,显示不正确-->
+    <ListView
+        android:id="@android:id/list"
+        android:cacheColorHint="#00000000"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</com.miloisbadboy.view.PullToRefreshView>
 
 </LinearLayout>

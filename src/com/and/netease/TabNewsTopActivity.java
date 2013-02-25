@@ -151,8 +151,8 @@ public class TabNewsTopActivity extends BaseActivity {
 					// System.out.println(rss);
 					// }
 
-					list = new ArticleServices(db).getRemoteArticle(CONST.Article_News_ColumnId);
-					listimage = new ArticleServices(db).getRemoteArticle(CONST.Article_News_ColumnId, true);
+					list = new ArticleServices(db).getLocalArticleList(CONST.Article_News_ColumnId, false);
+					listimage = new ArticleServices(db).getLocalArticleList(CONST.Article_News_ColumnId, true);
 
 					if (list.size() == 0 && listimage.size() == 0) {
 						handler.sendEmptyMessage(-1);
@@ -173,7 +173,7 @@ public class TabNewsTopActivity extends BaseActivity {
 			if (msg.what == 1) {
 
 				// 加载顶部图片
-				String ImageUrl = listimage.get(0).getImageUrl();
+				String ImageUrl = listimage.get(0).getRealImageUrl();
 				Log.v("ImageUrl", ImageUrl);
 				URL picUrl;
 				try {
@@ -215,7 +215,7 @@ public class TabNewsTopActivity extends BaseActivity {
 			// intent.putExtra("content_url", list.get(position - 2).getLink());
 			// position 此处减 2 是因为前面动态添加了一个图片
 			// 猜测 position 应该是该 Item 在全局 layout 中的位置
-			intent.putExtra("content_url", list.get(position - 2).getLink());
+			intent.putExtra("content_url", list.get(position - 2).getRealLink());
 			intent.putExtra("content_title", list.get(position - 2).getTitle());
 			TabNewsTopActivity.this.startActivityForResult(intent, position);
 		}
@@ -252,10 +252,7 @@ public class TabNewsTopActivity extends BaseActivity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			String dateString = "";
-			if (list.get(position).getReleaseDate() != null)
-				dateString = list.get(position).getReleaseDate().toLocaleString();
-			holder.tv_date.setText(dateString);
+			holder.tv_date.setText(list.get(position).getReleaseDateString());
 			holder.tv_title.setText(list.get(position).getTitle());
 			// TextView使用Html来处理图片显示
 			// Spanned text = Html.fromHtml(list.get(position).getDescription(),

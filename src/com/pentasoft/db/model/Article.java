@@ -10,21 +10,30 @@ import com.and.netease.CONST;
 @Table(name = "Article")
 public class Article {
 
-	@Id(column = "ArticleId")
-	public int ArticleId;
+	@Id(column = "Id")
+	public Integer Id;
+	public Integer ArticleId;
 	public String Title;
 	public String Summary;
 	public String Content;
 	public String Link;
-	public int ColumnId;
+	public Integer ColumnId;
 	public Date ReleaseDate;
 	public String ImageUrl;
 
-	public int getArticleId() {
+	public Integer getId() {
+		return Id;
+	}
+
+	public void setId(Integer id) {
+		Id = id;
+	}
+
+	public Integer getArticleId() {
 		return this.ArticleId;
 	}
 
-	public void setArticleId(int articleId) {
+	public void setArticleId(Integer articleId) {
 		this.ArticleId = articleId;
 	}
 
@@ -52,11 +61,11 @@ public class Article {
 		this.Content = content;
 	}
 
-	public int getColumnId() {
+	public Integer getColumnId() {
 		return this.ColumnId;
 	}
 
-	public void setColumnId(int columnId) {
+	public void setColumnId(Integer columnId) {
 		this.ColumnId = columnId;
 	}
 
@@ -69,7 +78,7 @@ public class Article {
 	}
 
 	public String getLink() {
-		return CONST.Url_Host + Link;
+		return Link;
 	}
 
 	public void setLink(String link) {
@@ -77,11 +86,26 @@ public class Article {
 	}
 
 	public String getImageUrl() {
-		return CONST.Url_ImgHost + ImageUrl;
+		return ImageUrl;
 	}
 
 	public void setImageUrl(String imageUrl) {
 		ImageUrl = imageUrl;
+	}
+
+	public String getReleaseDateString() {
+		String dateString = "";
+		if (ReleaseDate != null)
+			dateString = ReleaseDate.toLocaleString();
+		return dateString;
+	}
+
+	public String getRealLink() {
+		return CONST.Url_Host + Link;
+	}
+
+	public String getRealImageUrl() {
+		return CONST.Url_ImgHost + ImageUrl;
 	}
 
 }

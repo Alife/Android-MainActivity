@@ -109,7 +109,7 @@ public class TabNewsScienceActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent intent = new Intent(TabNewsScienceActivity.this, NewsContentActivity.class);
-			intent.putExtra("content_url", list.get(position).getLink());
+			intent.putExtra("content_url", list.get(position).getRealLink());
 			intent.putExtra("content_title", list.get(position).getTitle());
 			TabNewsScienceActivity.this.startActivityForResult(intent, position);
 		}
@@ -146,7 +146,7 @@ public class TabNewsScienceActivity extends BaseActivity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			holder.tv_date.setText(list.get(position).getReleaseDate().toLocaleString());
+			holder.tv_date.setText(list.get(position).getReleaseDateString());
 			holder.tv_title.setText(list.get(position).getTitle());
 			holder.tv_Description.setText(list.get(position).getSummary());
 

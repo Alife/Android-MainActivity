@@ -6,6 +6,7 @@ public class CONST {
 	public static final String Url_ImgHost = "http://fuwaitest.91health.net";
 	public static final String Url_Article_List = Url_Host + "/json/articles/list";
 	public static final String Url_Article = Url_Host + "/json/articles/get";
+	public static final Integer PageSize = 10;
 	public static final int Article_News_ColumnId = 18;
 	public static final int Article_Placard_ColumnId = 19;
 	public static final int Article_Media_ColumnId = 22;

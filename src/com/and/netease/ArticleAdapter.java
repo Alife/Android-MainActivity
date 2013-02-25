@@ -50,7 +50,7 @@ public class ArticleAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_date.setText(articList.get(position).getReleaseDate().toLocaleString());
+		holder.tv_date.setText(articList.get(position).getReleaseDateString());
 		holder.tv_title.setText(articList.get(position).getTitle());
 		holder.tv_Description.setText(articList.get(position).getSummary());
 

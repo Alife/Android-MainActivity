@@ -44,7 +44,7 @@ public class ArticleServices {
 	public List<Article> getRemoteArticle(int columnid, boolean isImage) {
 		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
 		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC).first();
-		int maxId = 0;
+		Integer maxId = 0;
 		if (lastArticle != null) {
 			maxId = lastArticle.getArticleId();
 		}
@@ -59,15 +59,45 @@ public class ArticleServices {
 		List<Article> listWebArticles = parseArticleList(string);
 
 		// 将数据保存到本地数据库中
+		List<Integer> articleIds = new ArrayList<Integer>();
+		for (Article article : list) {
+			articleIds.add(article.getArticleId());
+		}
+		List<Article> listNew = new ArrayList<Article>();
 		for (Article article : listWebArticles) {
-			finalDb.save(article);
+			if (!articleIds.contains(article.getArticleId())) {
+				finalDb.save(article);
+				listNew.add(article);
+			}
 		}
 
-		return listWebArticles;
+		return listNew;
 	}
 
-	public List<Article> getLocalArticleList() {
-		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
+	public List<Article> getLocalArticleList(int columnid, boolean isImage) {
+		StringBuilder sqlwhereSB = new StringBuilder("1=1");
+		if (columnid > 0)
+			sqlwhereSB.append(" and columnid=" + columnid);
+		if (isImage)
+			sqlwhereSB.append(" and ImageUrl is not null");
+		else
+			sqlwhereSB.append(" and ImageUrl is null");
+		List<Article> list = finalDb.findAllByWhere(Article.class, sqlwhereSB.toString());
+		return list;
+	}
+
+	public List<Article> getLocalArticleListPage(int columnid, boolean isImage, Integer pageID) {
+		StringBuilder sqlwhereSB = new StringBuilder("1=1");
+		if (columnid > 0)
+			sqlwhereSB.append(" and columnid=" + columnid);
+		if (isImage)
+			sqlwhereSB.append(" and ImageUrl is not null");
+		else
+			sqlwhereSB.append(" and ImageUrl is null");
+		sqlwhereSB.append(" ORDER BY ArticleId DESC ");
+		sqlwhereSB.append(" Limit " + String.valueOf(CONST.PageSize) + " Offset "
+				+ String.valueOf(pageID * CONST.PageSize));
+		List<Article> list = finalDb.findAllByWhere(Article.class, sqlwhereSB.toString());
 		return list;
 	}
 
@@ -78,15 +108,15 @@ public class ArticleServices {
 		if (json != null && !"".equals(json)) {
 			list = JSON.parseArray(json, Article.class);
 
-			for (Article rss : list) {
-				System.out.println("ArticleId:" + rss.getArticleId());
-				System.out.println("Title:" + rss.getTitle());
-				// System.out.println("Content:" + rss.getContent());
-				// System.out.println("Summary:" + rss.getSummary());
-				System.out.println("DateCreated:" + rss.getReleaseDate());
-				System.out.println("ColumnId:" + rss.getColumnId());
-				System.out.println("ImageUrl:" + rss.getImageUrl());
-			}
+			// for (Article rss : list) {
+			// System.out.println("ArticleId:" + rss.getArticleId());
+			// System.out.println("Title:" + rss.getTitle());
+			// // System.out.println("Content:" + rss.getContent());
+			// // System.out.println("Summary:" + rss.getSummary());
+			// System.out.println("DateCreated:" + rss.getReleaseDate());
+			// System.out.println("ColumnId:" + rss.getColumnId());
+			// System.out.println("ImageUrl:" + rss.getImageUrl());
+			// }
 		}
 
 		return list;

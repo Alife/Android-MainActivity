@@ -221,7 +221,7 @@ public final class R {
         public static final int RelativeLayout01=0x7f0a0045;
         public static final int add_friend=0x7f0a0017;
         public static final int add_friend_shake=0x7f0a0044;
-        public static final int anim_text=0x7f0a006e;
+        public static final int anim_text=0x7f0a006d;
         public static final int btn_back=0x7f0a0001;
         public static final int btn_news_more_content_back=0x7f0a0027;
         public static final int btn_newscontent_back=0x7f0a0032;
@@ -241,8 +241,8 @@ public final class R {
         public static final int head_lastUpdatedTextView=0x7f0a0014;
         public static final int head_progressBar=0x7f0a0012;
         public static final int head_tipsTextView=0x7f0a0013;
-        public static final int imageLeft=0x7f0a006c;
-        public static final int imageRight=0x7f0a006d;
+        public static final int imageLeft=0x7f0a006b;
+        public static final int imageRight=0x7f0a006c;
         public static final int imageView1=0x7f0a004a;
         public static final int imageView2=0x7f0a004b;
         public static final int imageView3=0x7f0a004c;
@@ -263,7 +263,7 @@ public final class R {
         public static final int layout_title_bar=0x7f0a001b;
         public static final int layout_title_text=0x7f0a0052;
         public static final int layout_top=0x7f0a0019;
-        public static final int linearLayout1=0x7f0a0068;
+        public static final int linearLayout1=0x7f0a0067;
         public static final int linearLayout_divider=0x7f0a0056;
         public static final int linearlayout_images_slide=0x7f0a004f;
         public static final int linearlayout_news_main=0x7f0a004e;
@@ -276,21 +276,21 @@ public final class R {
         public static final int login_top_layout=0x7f0a0035;
         public static final int login_user_edit=0x7f0a0036;
         public static final int main_dialog_layout=0x7f0a0049;
-        public static final int main_login_btn=0x7f0a0069;
-        public static final int main_pull_refresh_view=0x7f0a0067;
-        public static final int main_regist_btn=0x7f0a006a;
+        public static final int main_login_btn=0x7f0a0068;
+        public static final int main_pull_refresh_view=0x7f0a002b;
+        public static final int main_regist_btn=0x7f0a0069;
         public static final int mainweixin=0x7f0a003a;
         public static final int menu_close=0x7f0a0042;
         public static final int menu_close_btn=0x7f0a0043;
-        public static final int menu_settings=0x7f0a0077;
+        public static final int menu_settings=0x7f0a0076;
         public static final int news_content_title=0x7f0a0028;
-        public static final int page0=0x7f0a0071;
-        public static final int page1=0x7f0a0072;
-        public static final int page2=0x7f0a0073;
-        public static final int page3=0x7f0a0074;
-        public static final int page4=0x7f0a0075;
-        public static final int page5=0x7f0a0076;
-        public static final int pagertitle=0x7f0a0070;
+        public static final int page0=0x7f0a0070;
+        public static final int page1=0x7f0a0071;
+        public static final int page2=0x7f0a0072;
+        public static final int page3=0x7f0a0073;
+        public static final int page4=0x7f0a0074;
+        public static final int page5=0x7f0a0075;
+        public static final int pagertitle=0x7f0a006f;
         public static final int progressBar1=0x7f0a0034;
         public static final int pull_to_load_image=0x7f0a005a;
         public static final int pull_to_load_progress=0x7f0a0059;
@@ -309,7 +309,7 @@ public final class R {
         public static final int shakeImgUp=0x7f0a0061;
         public static final int shake_title_bar=0x7f0a0063;
         public static final int slidingDrawer1=0x7f0a0064;
-        public static final int startBtn=0x7f0a006b;
+        public static final int startBtn=0x7f0a006a;
         public static final int tabButtonGroup_layout=0x7f0a003b;
         public static final int tabpager=0x7f0a0041;
         public static final int text=0x7f0a000f;
@@ -331,11 +331,10 @@ public final class R {
         public static final int viewSwitcher=0x7f0a0033;
         public static final int viewswitcher_news_finance=0x7f0a0024;
         public static final int viewswitcher_news_more_content=0x7f0a0029;
-        public static final int viewswitcher_news_play=0x7f0a002b;
         public static final int viewswitcher_news_science=0x7f0a002c;
         public static final int viewswitcher_news_sport=0x7f0a002d;
         public static final int viewswitcher_news_top=0x7f0a002e;
-        public static final int whatsnew_viewpager=0x7f0a006f;
+        public static final int whatsnew_viewpager=0x7f0a006e;
         public static final int xh_head_img=0x7f0a0018;
     }
     public static final class layout {
