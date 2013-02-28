@@ -17,7 +17,8 @@ import com.miloisbadboy.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.pentasoft.db.model.Article;
 import com.pentasoft.db.service.ArticleServices;
 
-public class TabNewsPlayActivity extends BaseListActivity implements OnHeaderRefreshListener, OnFooterRefreshListener {
+public class TabNewsPlayActivity extends BaseListActivity implements
+		OnHeaderRefreshListener, OnFooterRefreshListener {
 
 	PullToRefreshView mPullToRefreshView;
 	ListView listView;
@@ -36,7 +37,15 @@ public class TabNewsPlayActivity extends BaseListActivity implements OnHeaderRef
 		setTheme(android.R.style.Theme_Translucent_NoTitleBar);
 		mPullToRefreshView = (PullToRefreshView) findViewById(R.id.main_pull_refresh_view);
 		_ArticleServices = new ArticleServices(db);
-		list = _ArticleServices.getLocalArticleListPage(CONST.Article_News_ColumnId, false, page);
+		list = _ArticleServices.getLocalArticleListPage(
+				CONST.Article_News_ColumnId, false, page);
+		// 如果本地没有数据,则自动从网上获取
+		if (!(list != null && list.size() > 0)) {
+			list = _ArticleServices.getRemoteArticle(
+					CONST.Article_News_ColumnId, false);
+			Notification("没有本地数据,从网络更新 " + list.size() + "条");
+
+		}
 
 		setListAdapter(new ArticleAdapter(this, list));
 		mPullToRefreshView.setOnHeaderRefreshListener(this);
@@ -54,8 +63,9 @@ public class TabNewsPlayActivity extends BaseListActivity implements OnHeaderRef
 
 			@Override
 			public void run() {
-				List<Article> articles = _ArticleServices.getLocalArticleListPage(CONST.Article_News_ColumnId, false,
-						page++);
+				List<Article> articles = _ArticleServices
+						.getLocalArticleListPage(CONST.Article_News_ColumnId,
+								false, page++);
 				for (Article article : articles) {
 					list.add(article);
 				}
@@ -73,13 +83,15 @@ public class TabNewsPlayActivity extends BaseListActivity implements OnHeaderRef
 			public void run() {
 				// 设置更新时间
 				// mPullToRefreshView.onHeaderRefreshComplete("最近更新:01-23 12:01");
-				List<Article> articles = _ArticleServices.getRemoteArticle(CONST.Article_News_ColumnId, false);
+				List<Article> articles = _ArticleServices.getRemoteArticle(
+						CONST.Article_News_ColumnId, false);
 				for (Article article : articles) {
 					list.add(article);
 				}
 				Notification("更新 " + articles.size() + " 条数据");
 				Date date = new Date();
-				mPullToRefreshView.onHeaderRefreshComplete(date.toLocaleString());
+				mPullToRefreshView.onHeaderRefreshComplete(date
+						.toLocaleString());
 				// mPullToRefreshView.onHeaderRefreshComplete();
 			}
 		}, 1000);
