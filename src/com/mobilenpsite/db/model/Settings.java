@@ -1,4 +1,4 @@
-﻿package com.pentasoft.db.model;
+﻿package com.mobilenpsite.db.model;
 
 public class Settings {
 

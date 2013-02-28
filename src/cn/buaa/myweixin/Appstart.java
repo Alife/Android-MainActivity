@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import cn.buaa.myweixin.base.BaseActivity;
 
-import com.pentasoft.db.model.SettingSystem;
+import com.mobilenpsite.db.model.SettingSystem;
 
 public class Appstart extends BaseActivity {
 
@@ -32,8 +32,10 @@ public class Appstart extends BaseActivity {
 				// 判断是否是第一次进入
 				// 第一次进入显示介绍界面,否则直接进入主页
 				boolean isfirst = true;
-				SettingSystem settingSystem = db.findById(1, SettingSystem.class);
-				if (settingSystem != null && settingSystem.getIsFirst().equals("1")) {
+				SettingSystem settingSystem = db.findById(1,
+						SettingSystem.class);
+				if (settingSystem != null
+						&& settingSystem.getIsFirst().equals("1")) {
 					isfirst = false;
 				} else {
 					settingSystem = new SettingSystem();

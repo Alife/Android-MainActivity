@@ -15,8 +15,7 @@
 	<uses-feature android:name="android.hardware.camera" />
 	<uses-feature android:name="android.hardware.camera.autofocus" />
  	<uses-permission android:name="android.permission.RECORD_AUDIO" /> 
- 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
- 	
+
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
@@ -82,7 +81,6 @@
         <activity android:name="com.and.netease.TabNewsMoreActivity" />
         <activity android:name="com.and.netease.NewsContentActivity" />
         <activity android:name="com.and.netease.NewsMoreContentActivity" />
-        <activity android:name=".test.fetion2009" />
     </application>
 
 </manifest>

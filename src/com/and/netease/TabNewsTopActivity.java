@@ -35,8 +35,8 @@ import com.and.netease.MyListView.OnRefreshListener;
 import com.and.netease.layout.SlideImageLayout;
 import com.and.netease.parser.NewsXmlParser;
 import com.and.netease.rss.RSSHandler;
-import com.pentasoft.db.model.Article;
-import com.pentasoft.db.service.ArticleServices;
+import com.mobilenpsite.dal.ArticleServices;
+import com.mobilenpsite.db.model.Article;
 
 public class TabNewsTopActivity extends BaseActivity {
 
@@ -61,7 +61,9 @@ public class TabNewsTopActivity extends BaseActivity {
 		// load local data
 		// adapter = new MyAdapter();
 		// listView.setAdapter(adapter);
-		List<Article> locaList = db.findAll(Article.class);
+
+		// List<Article> locaList = db.findAll(Article.class);
+		// Notification(String.valueOf(locaList.size()));
 
 		// get data from network asynchronous
 		rssHandler = new RSSHandler();
@@ -174,26 +176,26 @@ public class TabNewsTopActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 1) {
 
-				// 加载顶部图片
-				if (listimage != null && listimage.size() > 0) {
-					String ImageUrl = null;
-					Log.v("ImageUrl", ImageUrl);
-					try {
-						listimage.get(0).getRealImageUrl();
-						URL picUrl = new URL(ImageUrl);
+				try {
+					if (listimage.size() > 0) {
+						// 加载顶部图片
+						String ImageUrl = listimage.get(0).getRealImageUrl();
+						Log.v("ImageUrl", ImageUrl);
+						URL picUrl;
+						picUrl = new URL(ImageUrl);
 						Bitmap pngBM;
 						pngBM = BitmapFactory.decodeStream(picUrl.openStream());
 						testView.setImageBitmap(pngBM);
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				listView.addHeaderView(testView);
 

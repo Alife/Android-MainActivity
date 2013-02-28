@@ -10,7 +10,7 @@ import android.widget.TextView;
 import cn.buaa.myweixin.R;
 
 import com.and.netease.TabNewsFinanceActivity.ViewHolder;
-import com.pentasoft.db.model.Article;
+import com.mobilenpsite.db.model.Article;
 
 public class ArticleAdapter extends BaseAdapter {
 	Context mContext;

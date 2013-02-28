@@ -18,8 +18,8 @@ import cn.buaa.myweixin.R;
 import cn.buaa.myweixin.base.BaseActivity;
 
 import com.and.netease.rss.RSSHandler;
-import com.pentasoft.db.model.Article;
-import com.pentasoft.db.service.ArticleServices;
+import com.mobilenpsite.dal.ArticleServices;
+import com.mobilenpsite.db.model.Article;
 
 public class TabNewsScienceActivity extends BaseActivity {
 

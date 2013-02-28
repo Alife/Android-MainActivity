@@ -1,4 +1,4 @@
-﻿package com.pentasoft.db.model;
+﻿package com.mobilenpsite.db.model;
 
 import net.tsz.afinal.annotation.sqlite.Id;
 import net.tsz.afinal.annotation.sqlite.Table;

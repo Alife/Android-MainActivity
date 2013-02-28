@@ -1,10 +1,10 @@
-﻿package cn.buaa.myweixin.base;
+package cn.buaa.myweixin.base;
 
 import net.tsz.afinal.FinalDb;
 import android.app.ActivityGroup;
 import android.os.Bundle;
 
-import com.pentasoft.configs.Configs.SystemConfig;
+import com.mobilenpsite.configs.Configs.SystemConfig;
 
 public class BaseActivityGroup extends ActivityGroup {
 

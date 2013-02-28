@@ -1,4 +1,4 @@
-package com.pentasoft.db.service;
+package com.mobilenpsite.dal;
 
 import static com.wagnerandade.coollection.Coollection.from;
 
@@ -13,16 +13,20 @@ import net.tsz.afinal.FinalDb;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.and.netease.CONST;
-import com.pentasoft.db.model.Article;
+import com.mobilenpsite.db.model.Article;
 import com.wagnerandade.coollection.query.order.Order;
 
 public class ArticleServices {
@@ -129,7 +133,7 @@ public class ArticleServices {
 		return list;
 	}
 
-	public static String HttpGet(String url, List<NameValuePair> paras) {
+	private String HttpGet(String url, List<NameValuePair> paras) {
 		String result = "";
 
 		HttpClient client = new DefaultHttpClient();
@@ -167,4 +171,34 @@ public class ArticleServices {
 		return result;
 	}
 
+	private String HttpPost(String url, List<NameValuePair> paras) {
+		String result = "";
+
+		StringBuilder builder = new StringBuilder();
+
+		DefaultHttpClient httpClient = new DefaultHttpClient();// http�ͻ���
+		HttpPost httppost = new HttpPost(url);
+		httppost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+		List<NameValuePair> list = new ArrayList<NameValuePair>();
+		if (paras != null && paras.size() > 0) {
+			for (NameValuePair nameValuePair : paras) {
+				list.add(new BasicNameValuePair(nameValuePair.getName(), nameValuePair.getValue()));
+				result += nameValuePair.getName() + "=" + nameValuePair.getValue() + "&";
+			}
+		}
+
+		Log.v("url response:", url + result);
+
+		try {
+			httppost.setEntity(new UrlEncodedFormEntity(list, HTTP.UTF_8));
+			HttpResponse response = httpClient.execute(httppost);
+			builder.append(EntityUtils.toString(response.getEntity()));
+			result = builder.toString();
+			Log.v("url response:", "true. result:" + result);
+		} catch (Exception e) {
+			Log.v("url response:", "false. message:" + e.getMessage());
+			e.printStackTrace();
+		}
+		return builder.toString();
+	}
 }

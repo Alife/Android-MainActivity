@@ -1,4 +1,4 @@
-package com.pentasoft.db.model;
+package com.mobilenpsite.db.model;
 
 import java.util.Date;
 
