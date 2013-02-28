@@ -62,7 +62,6 @@ public class TabNewsTopActivity extends BaseActivity {
 		// adapter = new MyAdapter();
 		// listView.setAdapter(adapter);
 		List<Article> locaList = db.findAll(Article.class);
-		Notification(String.valueOf(locaList.size()));
 
 		// get data from network asynchronous
 		rssHandler = new RSSHandler();
@@ -95,7 +94,8 @@ public class TabNewsTopActivity extends BaseActivity {
 		// listView.addHeaderView(testView);
 
 		viewSwitcher.addView(listView);
-		viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page, null));
+		viewSwitcher.addView(getLayoutInflater().inflate(
+				R.layout.layout_progress_page, null));
 		viewSwitcher.showNext();
 
 	}
@@ -151,8 +151,10 @@ public class TabNewsTopActivity extends BaseActivity {
 					// System.out.println(rss);
 					// }
 
-					list = new ArticleServices(db).getLocalArticleList(CONST.Article_News_ColumnId, false);
-					listimage = new ArticleServices(db).getLocalArticleList(CONST.Article_News_ColumnId, true);
+					list = new ArticleServices(db).getLocalArticleList(
+							CONST.Article_News_ColumnId, false);
+					listimage = new ArticleServices(db).getLocalArticleList(
+							CONST.Article_News_ColumnId, true);
 
 					if (list.size() == 0 && listimage.size() == 0) {
 						handler.sendEmptyMessage(-1);
@@ -173,23 +175,25 @@ public class TabNewsTopActivity extends BaseActivity {
 			if (msg.what == 1) {
 
 				// 加载顶部图片
-				String ImageUrl = listimage.get(0).getRealImageUrl();
-				Log.v("ImageUrl", ImageUrl);
-				URL picUrl;
-				try {
-					picUrl = new URL(ImageUrl);
-					Bitmap pngBM;
-					pngBM = BitmapFactory.decodeStream(picUrl.openStream());
-					testView.setImageBitmap(pngBM);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (listimage != null && listimage.size() > 0) {
+					String ImageUrl = null;
+					Log.v("ImageUrl", ImageUrl);
+					try {
+						listimage.get(0).getRealImageUrl();
+						URL picUrl = new URL(ImageUrl);
+						Bitmap pngBM;
+						pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+						testView.setImageBitmap(pngBM);
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				listView.addHeaderView(testView);
 
@@ -206,12 +210,14 @@ public class TabNewsTopActivity extends BaseActivity {
 	private OnItemClickListener itemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 
 			if (position == 1) {
 				return;
 			}
-			Intent intent = new Intent(TabNewsTopActivity.this, NewsContentActivity.class);
+			Intent intent = new Intent(TabNewsTopActivity.this,
+					NewsContentActivity.class);
 			// intent.putExtra("content_url", list.get(position - 2).getLink());
 			// position 此处减 2 是因为前面动态添加了一个图片
 			// 猜测 position 应该是该 Item 在全局 layout 中的位置
@@ -243,10 +249,14 @@ public class TabNewsTopActivity extends BaseActivity {
 			ViewHolder holder;
 			if (convertView == null) {
 				holder = new ViewHolder();
-				convertView = getLayoutInflater().inflate(R.layout.layout_news_top_item, null);
-				holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date_news_top_item);
-				holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title_news_top_item);
-				holder.tv_Description = (TextView) convertView.findViewById(R.id.tv_description_news_top_item);
+				convertView = getLayoutInflater().inflate(
+						R.layout.layout_news_top_item, null);
+				holder.tv_date = (TextView) convertView
+						.findViewById(R.id.tv_date_news_top_item);
+				holder.tv_title = (TextView) convertView
+						.findViewById(R.id.tv_title_news_top_item);
+				holder.tv_Description = (TextView) convertView
+						.findViewById(R.id.tv_description_news_top_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -257,8 +267,9 @@ public class TabNewsTopActivity extends BaseActivity {
 			// TextView使用Html来处理图片显示
 			// Spanned text = Html.fromHtml(list.get(position).getDescription(),
 			// imgGetter, null);
-			holder.tv_Description
-					.setText(Html.fromHtml(list.get(position).getSummary()), TextView.BufferType.SPANNABLE);
+			holder.tv_Description.setText(
+					Html.fromHtml(list.get(position).getSummary()),
+					TextView.BufferType.SPANNABLE);
 
 			return convertView;
 		}
@@ -315,21 +326,25 @@ public class TabNewsTopActivity extends BaseActivity {
 		// 滑动图片区域
 		mImagePageViewList = new ArrayList<View>();
 		LayoutInflater inflater = getLayoutInflater();
-		mMainView = (ViewGroup) inflater.inflate(R.layout.page_topic_news, null);
+		mMainView = (ViewGroup) inflater
+				.inflate(R.layout.page_topic_news, null);
 		mViewPager = (ViewPager) mMainView.findViewById(R.id.image_slide_page);
 
 		// 圆点图片区域
 		mParser = new NewsXmlParser();
 		int length = mParser.getSlideImages().length;
 		mImageCircleViews = new ImageView[length];
-		mImageCircleView = (ViewGroup) mMainView.findViewById(R.id.layout_circle_images);
+		mImageCircleView = (ViewGroup) mMainView
+				.findViewById(R.id.layout_circle_images);
 		mSlideLayout = new SlideImageLayout(TabNewsTopActivity.this);
 		mSlideLayout.setCircleImageLayout(length);
 
 		for (int i = 0; i < length; i++) {
-			mImagePageViewList.add(mSlideLayout.getSlideImageLayout(mParser.getSlideImages()[i]));
+			mImagePageViewList.add(mSlideLayout.getSlideImageLayout(mParser
+					.getSlideImages()[i]));
 			mImageCircleViews[i] = mSlideLayout.getCircleImageLayout(i);
-			mImageCircleView.addView(mSlideLayout.getLinearLayout(mImageCircleViews[i], 10, 10));
+			mImageCircleView.addView(mSlideLayout.getLinearLayout(
+					mImageCircleViews[i], 10, 10));
 		}
 
 		// 设置默认的滑动标题
@@ -408,10 +423,12 @@ public class TabNewsTopActivity extends BaseActivity {
 			mSlideTitle.setText(mParser.getSlideTitles()[index]);
 
 			for (int i = 0; i < mImageCircleViews.length; i++) {
-				mImageCircleViews[index].setBackgroundResource(R.drawable.dot_selected);
+				mImageCircleViews[index]
+						.setBackgroundResource(R.drawable.dot_selected);
 
 				if (index != i) {
-					mImageCircleViews[i].setBackgroundResource(R.drawable.dot_none);
+					mImageCircleViews[i]
+							.setBackgroundResource(R.drawable.dot_none);
 				}
 			}
 		}

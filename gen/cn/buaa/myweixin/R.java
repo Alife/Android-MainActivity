@@ -391,6 +391,9 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f070000;
+        public static final int app_notify_title=0x7f07002b;
+        public static final int app_setnetwork_error=0x7f07002d;
+        public static final int app_setnetwork_title=0x7f07002c;
         public static final int app_welcome_start=0x7f07000a;
         public static final int app_welcome_what1=0x7f070003;
         public static final int app_welcome_what2=0x7f070004;
@@ -421,7 +424,6 @@ public final class R {
         public static final int pull_to_refresh_pull_label=0x7f070025;
         public static final int pull_to_refresh_refreshing_label=0x7f070027;
         public static final int pull_to_refresh_release_label=0x7f070026;
-        public static final int text=0x7f07002b;
         public static final int title1=0x7f07001e;
         public static final int title2=0x7f07001f;
         public static final int title3=0x7f070020;

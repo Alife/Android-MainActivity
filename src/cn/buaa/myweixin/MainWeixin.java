@@ -47,7 +47,8 @@ public class MainWeixin extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_weixin);
 		// 启动activity时不自动弹出软键盘
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		instance = this;
 		/*
 		 * mRightBtn = (Button) findViewById(R.id.right_btn);
@@ -148,55 +149,71 @@ public class MainWeixin extends Activity {
 			Animation animation = null;
 			switch (arg0) {
 			case 0:
-				mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_pressed));
+				mTab1.setImageDrawable(getResources().getDrawable(
+						R.drawable.tab_weixin_pressed));
 				if (currIndex == 1) {
 					animation = new TranslateAnimation(one, 0, 0, 0);
-					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_address_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, 0, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_find_frd_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, 0, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_settings_normal));
 				}
 				break;
 			case 1:
-				mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_pressed));
+				mTab2.setImageDrawable(getResources().getDrawable(
+						R.drawable.tab_address_pressed));
 				if (currIndex == 0) {
 					animation = new TranslateAnimation(zero, one, 0, 0);
-					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
+					mTab1.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_weixin_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, one, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_find_frd_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, one, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_settings_normal));
 				}
 				break;
 			case 2:
-				mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_pressed));
+				mTab3.setImageDrawable(getResources().getDrawable(
+						R.drawable.tab_find_frd_pressed));
 				if (currIndex == 0) {
 					animation = new TranslateAnimation(zero, two, 0, 0);
-					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
+					mTab1.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_weixin_normal));
 				} else if (currIndex == 1) {
 					animation = new TranslateAnimation(one, two, 0, 0);
-					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_address_normal));
 				} else if (currIndex == 3) {
 					animation = new TranslateAnimation(three, two, 0, 0);
-					mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_normal));
+					mTab4.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_settings_normal));
 				}
 				break;
 			case 3:
-				mTab4.setImageDrawable(getResources().getDrawable(R.drawable.tab_settings_pressed));
+				mTab4.setImageDrawable(getResources().getDrawable(
+						R.drawable.tab_settings_pressed));
 				if (currIndex == 0) {
 					animation = new TranslateAnimation(zero, three, 0, 0);
-					mTab1.setImageDrawable(getResources().getDrawable(R.drawable.tab_weixin_normal));
+					mTab1.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_weixin_normal));
 				} else if (currIndex == 1) {
 					animation = new TranslateAnimation(one, three, 0, 0);
-					mTab2.setImageDrawable(getResources().getDrawable(R.drawable.tab_address_normal));
+					mTab2.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_address_normal));
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, three, 0, 0);
-					mTab3.setImageDrawable(getResources().getDrawable(R.drawable.tab_find_frd_normal));
+					mTab3.setImageDrawable(getResources().getDrawable(
+							R.drawable.tab_find_frd_normal));
 				}
 				break;
 			}
@@ -233,20 +250,23 @@ public class MainWeixin extends Activity {
 		else if (keyCode == KeyEvent.KEYCODE_MENU) { // 获取 Menu键
 			if (!menu_display) {
 				// 获取LayoutInflater实例
-				inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+				inflater = (LayoutInflater) this
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// 这里的main布局是在inflate中加入的哦，以前都是直接this.setContentView()的吧？呵呵
 				// 该方法返回的是一个View的对象，是布局中的根
 				layout = inflater.inflate(R.layout.main_menu, null);
 
 				// 下面我们要考虑了，我怎样将我的layout加入到PopupWindow中呢？？？很简单
-				menuWindow = new PopupWindow(layout, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT); // 后两个参数是width和height
+				menuWindow = new PopupWindow(layout, LayoutParams.FILL_PARENT,
+						LayoutParams.WRAP_CONTENT); // 后两个参数是width和height
 				// menuWindow.showAsDropDown(layout); //设置弹出效果
 				// menuWindow.showAsDropDown(null, 0, layout.getHeight());
-				menuWindow.showAtLocation(this.findViewById(R.id.mainweixin), Gravity.BOTTOM
-						| Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
+				menuWindow.showAtLocation(this.findViewById(R.id.mainweixin),
+						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); // 设置layout在PopupWindow中显示的位置
 				// 如何获取我们main中的控件呢？也很简单
 				mClose = (LinearLayout) layout.findViewById(R.id.menu_close);
-				mCloseBtn = (LinearLayout) layout.findViewById(R.id.menu_close_btn);
+				mCloseBtn = (LinearLayout) layout
+						.findViewById(R.id.menu_close_btn);
 
 				// 下面对每一个Layout进行单击事件的注册吧。。。
 				// 比如单击某个MenuItem的时候，他的背景色改变

@@ -1,6 +1,7 @@
 package cn.buaa.myweixin;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,5 +42,11 @@ public class Exit extends Activity {
 	public void exitbutton0(View v) {
 		this.finish();
 		Main.instance.finish();// 关闭Main 这个Activity
+		// 删除通知
+
+		NotificationManager notificationManager = (NotificationManager) Exit.this
+				.getSystemService(NOTIFICATION_SERVICE);
+		// 此处的R.string.name就是我们在发送通知时，设置的通知id
+		notificationManager.cancel(R.string.app_notify_title);
 	}
 }
