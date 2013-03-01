@@ -14,6 +14,7 @@ import com.and.netease.rss.RSSHandler;
 import com.miloisbadboy.view.PullToRefreshView;
 import com.miloisbadboy.view.PullToRefreshView.OnFooterRefreshListener;
 import com.miloisbadboy.view.PullToRefreshView.OnHeaderRefreshListener;
+import com.mobilenpsite.configs.Config;
 import com.mobilenpsite.dal.ArticleServices;
 import com.mobilenpsite.db.model.Article;
 
@@ -36,15 +37,14 @@ public class TabNewsPlayActivity extends BaseListActivity implements
 		setContentView(R.layout.layout_news_play);
 		setTheme(android.R.style.Theme_Translucent_NoTitleBar);
 		mPullToRefreshView = (PullToRefreshView) findViewById(R.id.main_pull_refresh_view);
-		_ArticleServices = new ArticleServices(db);
-		list = _ArticleServices.getLocalArticleListPage(
-				CONST.Article_News_ColumnId, false, page);
+		ArticleServices _ArticleDalServices = new ArticleServices(db);
+		Article searchArticle = new Article();
+		searchArticle.setColumnId(Config.Article_News_ColumnId);
+		list = _ArticleDalServices.GetLocalList(searchArticle);
 		// 如果本地没有数据,则自动从网上获取
 		if (!(list != null && list.size() > 0)) {
-			list = _ArticleServices.getRemoteArticle(
-					CONST.Article_News_ColumnId, false);
+			list = _ArticleServices.GetRemoteList(Config.Article_News_ColumnId);
 			Notification("没有本地数据,从网络更新 " + list.size() + "条");
-
 		}
 
 		setListAdapter(new ArticleAdapter(this, list));
@@ -63,9 +63,8 @@ public class TabNewsPlayActivity extends BaseListActivity implements
 
 			@Override
 			public void run() {
-				List<Article> articles = _ArticleServices
-						.getLocalArticleListPage(CONST.Article_News_ColumnId,
-								false, page++);
+				List<Article> articles = _ArticleServices.GetRemoteList(
+						Config.Article_News_ColumnId, false, page++);
 				for (Article article : articles) {
 					list.add(article);
 				}
@@ -83,8 +82,8 @@ public class TabNewsPlayActivity extends BaseListActivity implements
 			public void run() {
 				// 设置更新时间
 				// mPullToRefreshView.onHeaderRefreshComplete("最近更新:01-23 12:01");
-				List<Article> articles = _ArticleServices.getRemoteArticle(
-						CONST.Article_News_ColumnId, false);
+				List<Article> articles = _ArticleServices.GetRemoteList(
+						Config.Article_News_ColumnId, false, 0);
 				for (Article article : articles) {
 					list.add(article);
 				}

@@ -5,7 +5,7 @@ import java.util.Date;
 import net.tsz.afinal.annotation.sqlite.Id;
 import net.tsz.afinal.annotation.sqlite.Table;
 
-import com.and.netease.CONST;
+import com.mobilenpsite.configs.Config;
 
 @Table(name = "Article")
 public class Article {
@@ -20,6 +20,7 @@ public class Article {
 	public Integer ColumnId;
 	public Date ReleaseDate;
 	public String ImageUrl;
+	public boolean IsImage;
 
 	public Integer getId() {
 		return Id;
@@ -101,11 +102,19 @@ public class Article {
 	}
 
 	public String getRealLink() {
-		return CONST.Url_Host + Link;
+		return Config.Url_Host + Link;
 	}
 
 	public String getRealImageUrl() {
-		return CONST.Url_ImgHost + ImageUrl;
+		return Config.Url_ImgHost + ImageUrl;
+	}
+
+	public Object getIsImage() {
+		return "".equals(ImageUrl);
+	}
+
+	public void setIsImage(boolean isImage) {
+		IsImage = isImage;
 	}
 
 }

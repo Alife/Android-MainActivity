@@ -1,103 +1,47 @@
 package com.mobilenpsite.dal;
 
-import static com.wagnerandade.coollection.Coollection.from;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.and.netease.CONST;
+import com.mobilenpsite.configs.Config;
 import com.mobilenpsite.db.model.Article;
-import com.wagnerandade.coollection.query.order.Order;
+import com.mobilenpsite.utility.NetHelper;
 
 public class ArticleServices {
 
-	private FinalDb finalDb;
-
-	public ArticleServices(FinalDb _finalDb) {
-		this.finalDb = _finalDb;
-	}
-
-	public List<Article> getRemoteArticle(int columnid) {
-		return getRemoteArticle(columnid, false);
-	}
-
-	public List<Article> getRemoteArticle(int columnid, boolean isImage) {
-		List<Article> list = finalDb.findAllByWhere(Article.class, "", "");
-		Article lastArticle = from(list).orderBy("getArticleId", Order.DESC).first();
+	// 网络操作
+	public List<Article> GetRemoteList(int columnid) {
 		Integer maxId = 0;
-		if (lastArticle != null) {
-			maxId = lastArticle.getArticleId();
-		}
-		String url = CONST.Url_Article_List;
+		String url = Config.Url_Article_List;
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		nameValuePair.add(new BasicNameValuePair("id", String.valueOf(maxId)));
-		nameValuePair.add(new BasicNameValuePair("columnid", String.valueOf(columnid)));
-		nameValuePair.add(new BasicNameValuePair("isImage", String.valueOf(isImage)));
-
-		String string = HttpGet(url, nameValuePair);
-
-		List<Article> listWebArticles = parseArticleList(string);
-
-		// 将数据保存到本地数据库中
-		List<Integer> articleIds = new ArrayList<Integer>();
-		for (Article article : list) {
-			articleIds.add(article.getArticleId());
-		}
-		List<Article> listNew = new ArrayList<Article>();
-		for (Article article : listWebArticles) {
-			if (!articleIds.contains(article.getArticleId())) {
-				finalDb.save(article);
-				listNew.add(article);
-			}
-		}
-
-		return listNew;
-	}
-
-	public List<Article> getLocalArticleList(int columnid, boolean isImage) {
-		StringBuilder sqlwhereSB = new StringBuilder("1=1");
-		if (columnid > 0)
-			sqlwhereSB.append(" and columnid=" + columnid);
-		if (isImage)
-			sqlwhereSB.append(" and ImageUrl is not null");
-		else
-			sqlwhereSB.append(" and ImageUrl is null");
-		List<Article> list = finalDb.findAllByWhere(Article.class, sqlwhereSB.toString());
+		nameValuePair.add(new BasicNameValuePair("columnid", String
+				.valueOf(columnid)));
+		String string = NetHelper.GetContentFromUrl(url, nameValuePair);
+		List<Article> list = parseArticleList(string);
 		return list;
 	}
 
-	public List<Article> getLocalArticleListPage(int columnid, boolean isImage, Integer pageID) {
-		StringBuilder sqlwhereSB = new StringBuilder("1=1");
-		if (columnid > 0)
-			sqlwhereSB.append(" and columnid=" + columnid);
-		if (isImage)
-			sqlwhereSB.append(" and ImageUrl is not null");
-		else
-			sqlwhereSB.append(" and ImageUrl is null");
-		sqlwhereSB.append(" ORDER BY ArticleId DESC ");
-		sqlwhereSB.append(" Limit " + String.valueOf(CONST.PageSize) + " Offset "
-				+ String.valueOf(pageID * CONST.PageSize));
-		List<Article> list = finalDb.findAllByWhere(Article.class, sqlwhereSB.toString());
+	public List<Article> GetRemoteList(int columnid, Object isImage,
+			Integer page) {
+		Integer maxId = 0;
+		String url = Config.Url_Article_List;
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+		nameValuePair.add(new BasicNameValuePair("id", String.valueOf(maxId)));
+		nameValuePair.add(new BasicNameValuePair("columnid", String
+				.valueOf(columnid)));
+		nameValuePair.add(new BasicNameValuePair("isImage", String
+				.valueOf(isImage)));
+		nameValuePair.add(new BasicNameValuePair("page", String.valueOf(page)));
+		String string = NetHelper.GetContentFromUrl(url, nameValuePair);
+		List<Article> list = parseArticleList(string);
 		return list;
 	}
 
@@ -133,72 +77,126 @@ public class ArticleServices {
 		return list;
 	}
 
-	private String HttpGet(String url, List<NameValuePair> paras) {
-		String result = "";
+	// 本地数据库操作
+	/** The final db. */
+	private FinalDb finalDb;
 
-		HttpClient client = new DefaultHttpClient();
-		StringBuilder builder = new StringBuilder();
-
-		if (paras != null && paras.size() > 0) {
-			if (url.indexOf("?") == -1)
-				url += "?";
-			for (NameValuePair nameValuePair : paras) {
-				String valueString = nameValuePair.getValue();
-				if (valueString != null && !"".equals(valueString.trim()))
-					url += nameValuePair.getName() + "=" + valueString + "&";
-			}
-		}
-
-		Log.v("url response:", url);
-
-		try {
-			HttpGet myget = new HttpGet(url);
-			HttpResponse response = client.execute(myget);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			for (String s = reader.readLine(); s != null; s = reader.readLine()) {
-				builder.append(s);
-			}
-			result = builder.toString();
-			// Log.v("url response:", "true. result:" + result);
-			// Log.v("url response:", result);
-		} catch (ConnectTimeoutException e) {
-			Log.v("ConnectTimeoutException", "false. message:time out");
-			e.printStackTrace();
-		} catch (Exception e) {
-			Log.v("Exception", "false. message:" + e.getMessage());
-			e.printStackTrace();
-		}
-		return result;
+	/**
+	 * 实例化 ArticleDalServices.
+	 * 
+	 * @param _finalDb
+	 *            sqllite 入口,需要从 Activity 传递过来.<br />
+	 *            (因为 finalDb 初始化需要 Activity 中的 Content)
+	 */
+	public ArticleServices(FinalDb _finalDb) {
+		this.finalDb = _finalDb;
 	}
 
-	private String HttpPost(String url, List<NameValuePair> paras) {
-		String result = "";
+	/**
+	 * 获取所有文章
+	 * 
+	 * @return 所有文章
+	 */
+	public List<Article> GetLocalList() {
+		List<Article> list = finalDb.findAll(Article.class);
+		return list;
+	}
 
-		StringBuilder builder = new StringBuilder();
+	/**
+	 * 条件查询
+	 * 
+	 * @param a
+	 *            (匹配方法类似于 Ibatis)
+	 * @return the list
+	 */
+	public List<Article> GetLocalList(Article a) {
+		StringBuilder sqlwhereSB = new StringBuilder("1=1");
+		sqlwhereSB.append(getSqlWhere(a));
+		List<Article> list = finalDb.findAllByWhere(Article.class,
+				sqlwhereSB.toString());
+		return list;
+	}
 
-		DefaultHttpClient httpClient = new DefaultHttpClient();// http�ͻ���
-		HttpPost httppost = new HttpPost(url);
-		httppost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-		List<NameValuePair> list = new ArrayList<NameValuePair>();
-		if (paras != null && paras.size() > 0) {
-			for (NameValuePair nameValuePair : paras) {
-				list.add(new BasicNameValuePair(nameValuePair.getName(), nameValuePair.getValue()));
-				result += nameValuePair.getName() + "=" + nameValuePair.getValue() + "&";
+	public List<Article> getLocalList(int columnId, int pageindex,
+			Integer pagesize) {
+		Article article = new Article();
+		article.setColumnId(columnId);
+		return GetLocalList(article, pageindex, pagesize);
+	}
+
+	/**
+	 * 分页条件查询
+	 * 
+	 * @param a
+	 *            条件实例
+	 * @param pageIndex
+	 *            the page index
+	 * @param pageSize
+	 *            the page size
+	 * @return the local article list page
+	 */
+	public List<Article> GetLocalList(Article a, Integer pageIndex,
+			Integer pageSize) {
+		StringBuilder sqlwhereSB = new StringBuilder();
+		sqlwhereSB.append(getSqlWhere(a));
+		// 图片文章排在前面
+		sqlwhereSB.append(" ORDER BY IsImage,ArticleId DESC ");
+		sqlwhereSB.append(" Limit " + String.valueOf(pageSize) + " Offset "
+				+ String.valueOf(pageIndex * pageSize));
+		List<Article> list = finalDb.findAllByWhere(Article.class,
+				sqlwhereSB.toString());
+		return list;
+	}
+
+	/**
+	 * 判断是否已经存在
+	 * 
+	 * @param blogId
+	 * @return
+	 */
+	private boolean Exist(int articleId) {
+		String where = "ArticleId=" + articleId;
+		List<Article> list = finalDb.findAllByWhere(Article.class, where);
+		boolean isExist = list != null && list.size() > 0;
+		return isExist;
+	}
+
+	/**
+	 * 插入
+	 * 
+	 * @param list
+	 */
+	public void SynchronyData2DB(List<Article> list) {
+		for (int i = 0, len = list.size(); i < len; i++) {
+			int newsId = list.get(i).getArticleId();
+			boolean isExist = Exist(newsId);
+			if (!isExist) {
+				finalDb.update(list.get(i));
+			} else {
+				finalDb.save(list.get(i));
 			}
 		}
 
-		Log.v("url response:", url + result);
-
-		try {
-			httppost.setEntity(new UrlEncodedFormEntity(list, HTTP.UTF_8));
-			HttpResponse response = httpClient.execute(httppost);
-			builder.append(EntityUtils.toString(response.getEntity()));
-			result = builder.toString();
-			Log.v("url response:", "true. result:" + result);
-		} catch (Exception e) {
-			Log.v("url response:", "false. message:" + e.getMessage());
-			e.printStackTrace();
-		}
-		return builder.toString();
 	}
+
+	/**
+	 * 根据实例拼接 Where
+	 * 
+	 * @param a
+	 *            实例
+	 * @return the sql where
+	 */
+	private String getSqlWhere(Article a) {
+		StringBuilder sqlwhereSB = new StringBuilder("1=1");
+		if (a.getColumnId() > 0)
+			sqlwhereSB.append(" and columnid=" + a.getColumnId());
+		if (a.getIsImage() != null) {
+			if ((Boolean) a.getIsImage())
+				sqlwhereSB.append(" and ImageUrl is not null");
+			else
+				sqlwhereSB.append(" and ImageUrl is null");
+		}
+		return sqlwhereSB.toString();
+	}
+
 }

@@ -3,7 +3,6 @@ package com.and.netease;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -13,13 +12,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,9 +26,8 @@ import cn.buaa.myweixin.R;
 import cn.buaa.myweixin.base.BaseActivity;
 
 import com.and.netease.MyListView.OnRefreshListener;
-import com.and.netease.layout.SlideImageLayout;
-import com.and.netease.parser.NewsXmlParser;
 import com.and.netease.rss.RSSHandler;
+import com.mobilenpsite.configs.Config;
 import com.mobilenpsite.dal.ArticleServices;
 import com.mobilenpsite.db.model.Article;
 
@@ -51,20 +44,23 @@ public class TabNewsTopActivity extends BaseActivity {
 	ViewSwitcher viewSwitcher;
 	ImageView testView;
 
+	ArticleServices dbHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_news_top);
 		setTheme(android.R.style.Theme_Translucent_NoTitleBar);
+		dbHelper = new ArticleServices(db);
 		initViews();
+		// 优先读取本地数据
+		list = dbHelper.getLocalList(Config.Article_News_ColumnId, 0,
+				Config.Article_PageSize);
 
-		// load local data
-		// adapter = new MyAdapter();
-		// listView.setAdapter(adapter);
-
-		// List<Article> locaList = db.findAll(Article.class);
-		// Notification(String.valueOf(locaList.size()));
-
+		if (isNetworkAvailable) {// 有网络情况
+			list = dbHelper
+					.GetRemoteList(Config.Article_News_ColumnId, null, 0);
+		}
 		// get data from network asynchronous
 		rssHandler = new RSSHandler();
 		requestRSSFeed();
@@ -134,29 +130,10 @@ public class TabNewsTopActivity extends BaseActivity {
 			public void run() {
 				super.run();
 				try {
-					// URL url = new URL(CONST.URL_NEWS_TOP);
-					// URLConnection con = url.openConnection();
-					// con.connect();
-					//
-					// InputStream input = con.getInputStream();
-					//
-					// SAXParserFactory fac = SAXParserFactory.newInstance();
-					// SAXParser parser = fac.newSAXParser();
-					// XMLReader reader = parser.getXMLReader();
-					// reader.setContentHandler(rssHandler);
-					// // Reader r = new InputStreamReader(input,
-					// Charset.forName("GBK"));
-					// Reader r = new InputStreamReader(input);
-					// reader.parse(new InputSource(r));
-					// list = rssHandler.getData();
-					// for (RSSItem rss : list) {
-					// System.out.println(rss);
-					// }
-
-					list = new ArticleServices(db).getLocalArticleList(
-							CONST.Article_News_ColumnId, false);
-					listimage = new ArticleServices(db).getLocalArticleList(
-							CONST.Article_News_ColumnId, true);
+					list = new ArticleServices(db).GetRemoteList(
+							Config.Article_News_ColumnId, null, 0);
+					listimage = new ArticleServices(db).GetRemoteList(
+							Config.Article_News_ColumnId, true, 0);
 
 					if (list.size() == 0 && listimage.size() == 0) {
 						handler.sendEmptyMessage(-1);
@@ -302,137 +279,4 @@ public class TabNewsTopActivity extends BaseActivity {
 	// }
 	// };
 
-	// 滑动图片的集合
-	private ArrayList<View> mImagePageViewList = null;
-	private ViewGroup mMainView = null;
-	private ViewPager mViewPager = null;
-	// 当前ViewPager索引
-	// private int pageIndex = 0;
-
-	// 包含圆点图片的View
-	private ViewGroup mImageCircleView = null;
-	private ImageView[] mImageCircleViews = null;
-
-	// 滑动标题
-	private TextView mSlideTitle = null;
-
-	// 布局设置类
-	private SlideImageLayout mSlideLayout = null;
-	// 数据解析类
-	private NewsXmlParser mParser = null;
-
-	/**
-	 * 初始化
-	 */
-	private void initeViews() {
-		// 滑动图片区域
-		mImagePageViewList = new ArrayList<View>();
-		LayoutInflater inflater = getLayoutInflater();
-		mMainView = (ViewGroup) inflater
-				.inflate(R.layout.page_topic_news, null);
-		mViewPager = (ViewPager) mMainView.findViewById(R.id.image_slide_page);
-
-		// 圆点图片区域
-		mParser = new NewsXmlParser();
-		int length = mParser.getSlideImages().length;
-		mImageCircleViews = new ImageView[length];
-		mImageCircleView = (ViewGroup) mMainView
-				.findViewById(R.id.layout_circle_images);
-		mSlideLayout = new SlideImageLayout(TabNewsTopActivity.this);
-		mSlideLayout.setCircleImageLayout(length);
-
-		for (int i = 0; i < length; i++) {
-			mImagePageViewList.add(mSlideLayout.getSlideImageLayout(mParser
-					.getSlideImages()[i]));
-			mImageCircleViews[i] = mSlideLayout.getCircleImageLayout(i);
-			mImageCircleView.addView(mSlideLayout.getLinearLayout(
-					mImageCircleViews[i], 10, 10));
-		}
-
-		// 设置默认的滑动标题
-		mSlideTitle = (TextView) mMainView.findViewById(R.id.tvSlideTitle);
-		mSlideTitle.setText(mParser.getSlideTitles()[0]);
-
-		setContentView(mMainView);
-
-		// 设置ViewPager
-		mViewPager.setAdapter(new SlideImageAdapter());
-		mViewPager.setOnPageChangeListener(new ImagePageChangeListener());
-	}
-
-	// 滑动图片数据适配器
-	private class SlideImageAdapter extends PagerAdapter {
-		@Override
-		public int getCount() {
-			return mImagePageViewList.size();
-		}
-
-		@Override
-		public boolean isViewFromObject(View view, Object object) {
-			return view == object;
-		}
-
-		@Override
-		public int getItemPosition(Object object) {
-			return super.getItemPosition(object);
-		}
-
-		@Override
-		public void destroyItem(View view, int arg1, Object arg2) {
-			((ViewPager) view).removeView(mImagePageViewList.get(arg1));
-		}
-
-		@Override
-		public Object instantiateItem(View view, int position) {
-			((ViewPager) view).addView(mImagePageViewList.get(position));
-
-			return mImagePageViewList.get(position);
-		}
-
-		@Override
-		public void restoreState(Parcelable arg0, ClassLoader arg1) {
-
-		}
-
-		@Override
-		public Parcelable saveState() {
-			return null;
-		}
-
-		@Override
-		public void startUpdate(View arg0) {
-		}
-
-		@Override
-		public void finishUpdate(View arg0) {
-		}
-	}
-
-	// 滑动页面更改事件监听器
-	private class ImagePageChangeListener implements OnPageChangeListener {
-		@Override
-		public void onPageScrollStateChanged(int arg0) {
-		}
-
-		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-		}
-
-		@Override
-		public void onPageSelected(int index) {
-			// pageIndex = index;
-			mSlideLayout.setPageIndex(index);
-			mSlideTitle.setText(mParser.getSlideTitles()[index]);
-
-			for (int i = 0; i < mImageCircleViews.length; i++) {
-				mImageCircleViews[index]
-						.setBackgroundResource(R.drawable.dot_selected);
-
-				if (index != i) {
-					mImageCircleViews[i]
-							.setBackgroundResource(R.drawable.dot_none);
-				}
-			}
-		}
-	}
 }

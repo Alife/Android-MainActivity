@@ -18,6 +18,7 @@ import cn.buaa.myweixin.R;
 import cn.buaa.myweixin.base.BaseActivity;
 
 import com.and.netease.rss.RSSHandler;
+import com.mobilenpsite.configs.Config;
 import com.mobilenpsite.dal.ArticleServices;
 import com.mobilenpsite.db.model.Article;
 
@@ -50,7 +51,8 @@ public class TabNewsSportActivity extends BaseActivity {
 		listView = new ListView(this);
 		listView.setCacheColorHint(Color.argb(0, 0, 0, 0));
 		viewSwitcher.addView(listView);
-		viewSwitcher.addView(getLayoutInflater().inflate(R.layout.layout_progress_page, null));
+		viewSwitcher.addView(getLayoutInflater().inflate(
+				R.layout.layout_progress_page, null));
 		viewSwitcher.showNext();
 		listView.setOnItemClickListener(listener);
 
@@ -62,26 +64,8 @@ public class TabNewsSportActivity extends BaseActivity {
 			public void run() {
 				super.run();
 				try {
-					// URL url = new URL(CONST.URL_NEWS_TOP);
-					// URLConnection con = url.openConnection();
-					// con.connect();
-					//
-					// InputStream input = con.getInputStream();
-					//
-					// SAXParserFactory fac = SAXParserFactory.newInstance();
-					// SAXParser parser = fac.newSAXParser();
-					// XMLReader reader = parser.getXMLReader();
-					// reader.setContentHandler(rssHandler);
-					// // Reader r = new InputStreamReader(input,
-					// Charset.forName("GBK"));
-					// Reader r = new InputStreamReader(input);
-					// reader.parse(new InputSource(r));
-					// list = rssHandler.getData();
-					// for (RSSItem rss : list) {
-					// System.out.println(rss);
-					// }
-
-					list = new ArticleServices(db).getRemoteArticle(CONST.Article_Placard_ColumnId);
+					list = new ArticleServices(db)
+							.GetRemoteList(Config.Article_Placard_ColumnId);
 
 					if (list.size() == 0) {
 						handler.sendEmptyMessage(-1);
@@ -110,8 +94,10 @@ public class TabNewsSportActivity extends BaseActivity {
 	private OnItemClickListener listener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Intent intent = new Intent(TabNewsSportActivity.this, NewsContentActivity.class);
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Intent intent = new Intent(TabNewsSportActivity.this,
+					NewsContentActivity.class);
 			intent.putExtra("content_url", list.get(position).getRealLink());
 			intent.putExtra("content_title", list.get(position).getTitle());
 			TabNewsSportActivity.this.startActivityForResult(intent, position);
@@ -140,10 +126,14 @@ public class TabNewsSportActivity extends BaseActivity {
 			ViewHolder holder;
 			if (convertView == null) {
 				holder = new ViewHolder();
-				convertView = getLayoutInflater().inflate(R.layout.layout_news_top_item, null);
-				holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date_news_top_item);
-				holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title_news_top_item);
-				holder.tv_Description = (TextView) convertView.findViewById(R.id.tv_description_news_top_item);
+				convertView = getLayoutInflater().inflate(
+						R.layout.layout_news_top_item, null);
+				holder.tv_date = (TextView) convertView
+						.findViewById(R.id.tv_date_news_top_item);
+				holder.tv_title = (TextView) convertView
+						.findViewById(R.id.tv_title_news_top_item);
+				holder.tv_Description = (TextView) convertView
+						.findViewById(R.id.tv_description_news_top_item);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();

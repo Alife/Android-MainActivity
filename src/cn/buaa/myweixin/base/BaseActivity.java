@@ -13,20 +13,23 @@ import android.widget.Toast;
 import cn.buaa.myweixin.R;
 import cn.buaa.myweixin.Whatsnew;
 
-import com.mobilenpsite.configs.Configs.SystemConfig;
+import com.mobilenpsite.configs.Config;
+import com.mobilenpsite.utility.NetHelper;
 
 public class BaseActivity extends Activity {
 
 	public FinalDb db;
 
 	String tag = "ActivityState";
-	Integer PageSize = 10;
+	protected boolean isNetworkAvailable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		db = FinalDb.create(this, SystemConfig.getDbName(), false);
 		Log.i(tag, "onCreate");
+		Log.i(tag, String.valueOf(this.equals(getApplicationContext())));
+		db = FinalDb.create(this, Config.DB_FILE_NAME, false);
+		isNetworkAvailable = NetHelper.networkIsAvailable(this);
 	}
 
 	@Override
@@ -79,8 +82,10 @@ public class BaseActivity extends Activity {
 		CharSequence contentTitle = "通知";
 		CharSequence contentText = msg;
 		Intent notificationIntent = new Intent(this, Whatsnew.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				notificationIntent, 0);
+		notification.setLatestEventInfo(context, contentTitle, contentText,
+				contentIntent);
 		// 用mNotificationManager的notify方法通知用户生成标题栏消息通知
 		mNotificationManager.notify(1, notification);
 	}

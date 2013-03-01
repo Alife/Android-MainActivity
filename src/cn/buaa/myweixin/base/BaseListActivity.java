@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mobilenpsite.configs.Configs.SystemConfig;
+import com.mobilenpsite.configs.Config;
 
 public class BaseListActivity extends ListActivity {
 
@@ -17,7 +17,7 @@ public class BaseListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		db = FinalDb.create(this, SystemConfig.getDbName(), false);
+		db = FinalDb.create(this, Config.DB_FILE_NAME, false);
 		Log.i(tag, "onCreate");
 	}
 
